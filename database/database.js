@@ -8,7 +8,7 @@ async function startup() {
         user: process.env.DB_USER,
         password: process.env.DB_PASS,
         connectstring: process.env.DB_CONNECT_STRING,
-        poolMin: 4,
+        poolMin: 2,
         poolMax: 10,
         poolIncrement: 1
     });    
