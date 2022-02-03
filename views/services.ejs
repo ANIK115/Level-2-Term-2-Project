@@ -8,8 +8,6 @@
   </head>
   <body>
     <div class="services under category">
-      <h2>Services</h2>
-
       <% if (services.length > 0) { %> <% services.forEach(service => { %>
       <h3 class="title"><%= service.NAME %></h3>
       <p class="description">
@@ -18,7 +16,15 @@
       <p class="cost"><strong>Cost: </strong><%= service.COST %></p>
       <% }) %> <% } else { %>
       <p>There are no services to display...</p>
-      <% } %>
+      <% } %> <% if (comments.length > 0) { %>
+      <h3>Customer Feedbacks:</h3>
+      <% comments.forEach(comment => { %>
+      <h3 class="customer"><%= comment.CUSTOMER_NAME %></h3>
+      <p class="feedback">
+        <strong>Feedback: </strong> <%= comment.COMMENTS %>
+      </p>
+      <p class="ratings"><strong>Rating: </strong> <%= comment.STAR %></p>
+      <% }) %> <% } else { %> <% } %>
     </div>
   </body>
 </html>
