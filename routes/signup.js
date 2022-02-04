@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
         });
     } else {
         console.log('in get method');
-        res.redirect('/');
+        res.redirect('/api');
     }
 });
 
@@ -42,6 +42,8 @@ router.post('/', async (req, res) => {
         // check if password confimation is right
         if(req.body.password !== req.body.password2)
             errors.push('Password confirmation doesn\'t match with password');
+        
+        console.log('passed password matching');
 
         // check if password has at least 6 char
         if(req.body.password.length < 6){
@@ -86,15 +88,15 @@ router.post('/', async (req, res) => {
                     let result = await db_authentication.getCustomerIdByEmail(customer.email);
                     console.log(result);
                     // login the user too
-                    // await authUtils.loginCustomer(res, result[0].CUSTOMER_ID);
+                    await authUtils.loginCustomer(res, result[0].CUSTOMER_ID);
                     // redirect to home page
                     //res.redirect(`/profile/${user.handle}/settings`);
-                    res.redirect('/api/services/1');
+                    res.redirect('/api');
                 }
             });
         }
     } else {
-        res.redirect('/');
+        res.redirect('/api');
     }
 });
 

@@ -1,0 +1,48 @@
+<div class="card w-50 mx-auto border-primary">
+  <form action="/api/login" method="POST" class="card-body">
+    <!-- Email -->
+    <div class="form-group row">
+      <label for="email" class="col-4 col-form-label">Email</label>
+      <div class="col-8">
+        <input
+          type="text"
+          class="form-control"
+          name="email"
+          required
+          value="<%= (typeof form != 'undefined')? form.email : '' %>"
+        />
+      </div>
+    </div>
+    <!-- password -->
+    <div class="form-group row">
+      <label for="password" class="col-4 col-form-label">Password</label>
+      <div class="col-8">
+        <input
+          type="password"
+          class="form-control"
+          name="password"
+          required
+          value="<%= (typeof form != 'undefined')? form.password : '' %>"
+        />
+      </div>
+    </div>
+    <!-- error list -->
+    <% if (errors.length > 0) { %>
+    <div class="row mx-0 pb-0 alert alert-danger">
+      <ul>
+        <% for (e of errors) { %>
+        <li><%= e %></li>
+        <% } %>
+      </ul>
+    </div>
+    <% } %>
+    <!-- submit -->
+    <div class="form-group row">
+      <input
+        type="submit"
+        value="Login"
+        class="btn btn-primary col-2 mx-auto"
+      />
+    </div>
+  </form>
+</div>
