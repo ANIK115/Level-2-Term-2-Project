@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      /* create styles */
+      .create-service form {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      .create-service input,
+      .create-service textarea {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+        padding: 8px;
+      }
+      .create-service label {
+        display: block;
+        margin-top: 24px;
+      }
+      textarea {
+        height: 120px;
+      }
+      .create-service button {
+        margin-top: 20px;
+        background: crimson;
+        color: white;
+        padding: 6px;
+        border: 0;
+        font-size: 1.2em;
+        cursor: pointer;
+      }
+    </style>
+    <title>Add Service</title>
+  </head>
+  <body>
+    <div class="create-service content">
+      <form action="/addservice" method="POST">
+        <label for="title">Service Name:</label>
+        <input type="text" id="name" name="name" required />
+        <label for="category">Select Category</label>
+        <select name="category" id="category">
+          <option value="1">AC REPAIR</option>
+          <option value="2">PLUMBING AND SANITARY</option>
+          <option value="3">HOME CLEANING</option>
+          <option value="4">PAINTING SERVICE</option>
+        </select>
+        <label for="description">Service Description:</label>
+        <input type="text" id="description" name="description" required />
+        <label for="cost">Service Cost:</label>
+        <input type="number" id="cost" name="cost" required />
+        <button>Submit</button>
+      </form>
+    </div>
+  </body>
+</html>

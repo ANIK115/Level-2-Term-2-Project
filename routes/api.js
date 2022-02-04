@@ -5,6 +5,7 @@ const router = require('express-promise-router')();
 // router.use("/",(req,res) => {
 //     res.render('reg_form');
 // })
+router.use("/signup",require('./signup'));
 router.use("/moderator",require('./moderator'));
 router.use("/services", require('./services'));
 module.exports = router;
