@@ -32,9 +32,44 @@ async function getAllCommentsUnderCategory(id)
     return (await database.execute(sql, binds, database.options)).rows;
 }
 
+//get a service by its name
+async function getServiceByName(name) {
+    const sql = `SELECT SERVICE_NAME FROM SERVICE WHERE SERVICE_NAME = :name`;
+    const binds = {
+        name : name
+    }
+    return (await database.execute(sql, binds, database.options)).rows;
+}
+
+async function getCategoryID(name) {
+    const sql = `SELECT CATEGORY_ID AS CATNAME FROM CATEGORY WHERE CATEGORY_NAME = :name`;
+    const binds = {
+        name : name
+    }
+    return (await database.execute(sql, binds, database.options)).rows;
+}
+
+async function createNewService(service) {
+    const sql = `INSERT INTO SERVICE (SERVICE_NAME, DESCRIPTION, COST, CATEGORY_ID) 
+    VALUES(:name, :description, :cost, :category)
+    `;
+    const binds = {
+        name : service.name,
+        description : service.description,
+        cost : service.cost,
+        category : service.category
+    };
+    console.log('created new service!');
+    await database.execute(sql, binds, {});
+    return;
+}
+
 
 module.exports = {
     getAllServicesUnderCategory,
     getAllCommentsUnderCategory,
-    getCategoryName
+    getCategoryName,
+    getServiceByName,
+    getCategoryID,
+    createNewService
 }
