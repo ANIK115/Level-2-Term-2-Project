@@ -3,8 +3,8 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 
 // my modules
-const db_authentication = require('../database/authentication');
-const authUtils = require('../utils/authentication_util');
+const db_authentication = require('../../database/authentication');
+const authUtils = require('../../utils/authentication_util');
 
 // creating router
 const router = express.Router({mergeParams : true});
@@ -13,16 +13,16 @@ const router = express.Router({mergeParams : true});
 router.get('/', (req, res) => {
     console.log('line 14');
     // check if already logged in
-    if(req.user == null){
+    if(req.customer == null){
         const errors = [];
         res.render('signup.ejs', {
             title : 'Sign Up - Esheba',
-            user : null,
+            customer : null,
             errors : errors
         });
     } else {
         console.log('in get method');
-        res.redirect('/api');
+        res.redirect('/api/services/1');
     }
 });
 
@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
 router.post('/', async (req, res) => {
     console.log('entered post method');
     // check if already logged in
-    if(req.user == null){
+    if(req.customer == null){
         let results, errors = [];
 
         // check if email is alredy used or not
@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
             res.render('signup.ejs', {
                 title : 'Sign Up - Esheba',
                 body : ['signup'],
-                user : null,
+                customer : null,
                 errors : errors,
                 form : {
                     name : req.body.name,
@@ -91,12 +91,12 @@ router.post('/', async (req, res) => {
                     await authUtils.loginCustomer(res, result[0].CUSTOMER_ID);
                     // redirect to home page
                     //res.redirect(`/profile/${user.handle}/settings`);
-                    res.redirect('/api');
+                    res.redirect('/api/services/1');
                 }
             });
         }
     } else {
-        res.redirect('/api');
+        res.redirect('/api/services/1');
     }
 });
 

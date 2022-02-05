@@ -1,0 +1,122 @@
+<div class="card w-50 mx-auto border-primary">
+  <form action="/api/provider/reg_form" method="post" class="card-body">
+    <!-- handle -->
+    <div class="form-group row">
+      <label for="name" class="col-4 col-form-label">Name</label>
+      <div class="col-8">
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          required
+          value="<%= (typeof form != 'undefined')? form.name : '' %>"
+        />
+      </div>
+    </div>
+    <!-- email -->
+    <div class="form-group row">
+      <label for="email" class="col-4 col-form-label">Email</label>
+      <div class="col-8">
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          required
+          value="<%= (typeof form != 'undefined')? form.email : '' %>"
+        />
+      </div>
+    </div>
+    <!-- password -->
+    <div class="form-group row">
+      <label for="password" class="col-4 col-form-label">Password</label>
+      <div class="col-8">
+        <input
+          type="password"
+          class="form-control"
+          name="password"
+          required
+          value="<%= (typeof form != 'undefined')? form.password : '' %>"
+        />
+      </div>
+    </div>
+    <!-- confirm password -->
+    <div class="form-group row">
+      <label for="password2" class="col-4 col-form-label"
+        >Confirm Password</label
+      >
+      <div class="col-8">
+        <input
+          type="password"
+          class="form-control"
+          name="password2"
+          required
+          value="<%= (typeof form != 'undefined')? form.password2 : '' %>"
+        />
+      </div>
+    </div>
+    <!-- Phone Number -->
+    <div class="form-group row">
+      <label for="phone" class="col-4 col-form-label">Phone</label>
+      <div class="col-8">
+        <input
+          type="phone"
+          class="form-control"
+          name="phone"
+          required
+          value="<%= (typeof form != 'undefined')? form.phone : '' %>"
+        />
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="licence_id" class="col-4 col-form-label">Licence ID</label>
+      <div class="col-8">
+        <input
+          type="licene"
+          class="form-control"
+          name="licence_id"
+          required
+          value="<%= (typeof form != 'undefined')? form.licence_id : '' %>"
+        />
+      </div>
+    </div>
+
+    <div>
+      <select name="provides">
+        <% var options = []; %> <% for(var i = 0; i < allServices.length; i++) {
+        %>
+        <option value="<%= allServices[i].SERVICE_NAME %>">
+          <%= allServices[i].SERVICE_NAME %>
+        </option>
+        <% } %>
+      </select>
+    </div>
+    <!-- error list -->
+    <% if (errors.length > 0) { %>
+    <div class="row mx-0 pb-0 alert alert-danger">
+      <ul>
+        <% for (e of errors) { %>
+        <li><%= e %></li>
+        <% } %>
+      </ul>
+    </div>
+    <% } %>
+    <!-- submit -->
+    <div class="form-group row">
+      <input
+        type="submit"
+        value="Submit"
+        class="btn btn-primary col-2 mx-auto"
+      />
+    </div>
+  </form>
+  <div>
+    <% if (allServices.length > 0) { %>
+    <h3>Our Servies:</h3>
+    <% allServices.forEach(s => { %>
+    <h3 class="servicenames"><%= s.SERVICE_NAME %></h3>
+    <% }) %> <% } else { %>
+    <p>No services!!!</p>
+    <% } %>
+  </div>
+</div>

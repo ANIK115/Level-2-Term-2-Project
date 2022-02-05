@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
             errors : errors
         })
     } else {
-        res.redirect('/api');
+        res.redirect('/api/services/1');
     }
 });
 
@@ -42,8 +42,10 @@ router.post('/', async (req, res) => {
             const match = await bcrypt.compare(req.body.password, results[0].PASSWORD);
             if(match){
                 console.log('matched email and password in log in');
+                const cus_id = results[0].CUSTOMER_ID;
+                console.log(`printing customer id: ${cus_id}`);
                 // if successful login the user
-                await authUtils.loginCustomer(res, results[0].ID);
+                await authUtils.loginCustomer(res, results[0].CUSTOMER_ID);
                 // res.redirect('/api/services/1');
                 // res.send('Successful');
             }
@@ -55,7 +57,7 @@ router.post('/', async (req, res) => {
         // if any error, redirect to login page but with form information, else redirect to homepage
         if(errors.length == 0){
             // res.redirect('/api/services/1');
-            res.redirect('/api');
+            res.redirect('/api/services/1');
         } else {
             res.render('login.ejs', {
                 title : 'Login - Esheba',
@@ -69,7 +71,7 @@ router.post('/', async (req, res) => {
             });
         }
     } else {
-        res.redirect('/api');
+        res.redirect('/api/services/1');
     }
 });
 

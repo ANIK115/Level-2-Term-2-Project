@@ -12,6 +12,26 @@ async function loginCustomer(res, userId){
     let token = jwt.sign(payload, process.env.APP_SECRET_TOKEN);
     // put token in db
     await db_authentication.updateCustomerTokenById(userId, token);
+    console.log('customer token updated');
+    console.log(userId);
+    const cus = await db_authentication.getCustomerToken(userId);
+    console.log(cus);
+    // set token in cookie
+    let options = {
+        maxAge: 90000000, //expire duration of the token in milliseconds
+        httpOnly: true
+    }
+    res.cookie('sessionToken', token, options);
+}
+
+async function loginProvider(res, userId){
+    // create token
+    const payload = {
+        id: userId
+    };
+    let token = jwt.sign(payload, process.env.APP_SECRET_TOKEN);
+    // put token in db
+    await db_authentication.updateProviderTokenById(userId, token);
     // set token in cookie
     let options = {
         maxAge: 90000000, //expire duration of the token in milliseconds
@@ -21,5 +41,6 @@ async function loginCustomer(res, userId){
 }
 
 module.exports = {
-    loginCustomer
+    loginCustomer,
+    loginProvider
 }

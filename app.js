@@ -13,7 +13,6 @@ app.options('*',cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(auth);
 
 
 //view engine set up
@@ -22,6 +21,7 @@ app.set('view engine','ejs');
 app.use(express.static('public')); 
 
 // DO VERSIONING STUFFS HERE
-app.use('/api',require('./routes/api'));
+app.use(auth);
+app.use('/api',require('./routes/api/api'));
 
 module.exports = app;

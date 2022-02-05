@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const DB_auth = require('../database/authentication');
 
 function auth(req, res, next){
-    req.user = null;
+     req.user = null;
     // check if user has cookie token
     if(req.cookies.sessionToken){
         let token = req.cookies.sessionToken;
@@ -18,6 +18,7 @@ function auth(req, res, next){
                 // get user prompt (id, handle, message count) from id
                 const decodedId = decoded.id;
                 let results = await DB_auth.getCustomerById(decodedId);
+                console.log(decodedId);
 
                 // if no such user or token doesn't match, do nothing
                 if(results.length == 0){

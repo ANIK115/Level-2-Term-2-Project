@@ -64,6 +64,33 @@ async function createNewService(service) {
     return;
 }
 
+async function getCustomerFromOrder(id)
+{
+    const sql = `SELECT O.C_ID AS cus_id 
+    FROM ORDERS O JOIN INCLUDED_IN II ON (O.ORDER_ID = II.ORDER_ID)
+    WHERE II.SVC_ID = :id
+    ORDER BY O.ORDER_DATE
+    `;
+    const binds = {
+        id : id 
+    }
+    return (await database.execute(sql, binds, database.options)).rows;
+}
+
+
+async function getServiceID(name) {
+    const sql = `SELECT SERVICE_ID FROM SERVICE WHERE SERVICE_NAME = :name`;
+    const binds = {
+        name : name 
+    }
+    return (await database.execute(sql, binds, database.options)).rows;
+}
+async function getAllServices()
+{
+    const sql = `SELECT SERVICE_NAME FROM SERVICE`;
+    return (await database.execute(sql, {}, database.options)).rows;
+
+}
 
 module.exports = {
     getAllServicesUnderCategory,
@@ -71,5 +98,8 @@ module.exports = {
     getCategoryName,
     getServiceByName,
     getCategoryID,
-    createNewService
+    createNewService,
+    getCustomerFromOrder,
+    getServiceID,
+    getAllServices
 }

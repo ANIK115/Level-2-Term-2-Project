@@ -7,13 +7,16 @@ class ServiceController extends Controller {
     }
 
     list = async (req, res, next) => {
+        if(req.user !== null) {
         let id = req.params.id;
         let services = await db_services.getAllServicesUnderCategory(id);
         let comments = await db_services.getAllCommentsUnderCategory(id);
         let category = await db_services.getCategoryName(id);
         // let category_name = category[0].CATNAME;
-        console.log(services);
         res.render('services', {services, comments});
+        }else {
+            res.redirect("/api");
+        }
     };
 
 
