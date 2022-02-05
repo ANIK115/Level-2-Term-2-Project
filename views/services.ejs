@@ -42,12 +42,23 @@
             value="<%= (typeof form != 'undefined')? form.address : '' %>"
           />
         </div>
+      </form>
+    </div>
+    <div>
+      <form action="/api/services/<%=category_id%>" method="post">
         <div>
           <input
             type="submit"
             value="Add comment"
             class="btn btn-link my-comment-btn"
           />
+        </div>
+        <div>
+          <% if(notify.toLowerCase() === "null"){ %>
+          <p></p>
+          <% } else { %>
+          <p><%=notify%></p>
+          <% } %>
         </div>
       </form>
     </div>

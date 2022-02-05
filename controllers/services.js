@@ -8,16 +8,38 @@ class ServiceController extends Controller {
 
     list = async (req, res, next) => {
         if(req.user !== null) {
-        let id = req.params.id;
-        let services = await db_services.getAllServicesUnderCategory(id);
-        let comments = await db_services.getAllCommentsUnderCategory(id);
-        let category = await db_services.getCategoryName(id);
+        let category_id = req.params.id;
+        let services = await db_services.getAllServicesUnderCategory(category_id);
+        let comments = await db_services.getAllCommentsUnderCategory(category_id);
+        let notify = "null";
         // let category_name = category[0].CATNAME;
-        res.render('services', {services, comments});
+        res.render('services', {services, comments, notify, category_id});
         }else {
             res.redirect("/api");
         }
     };
+
+    addComment = async(req, res ) => {
+        if(req.user !== null) {
+            let cus_id = req.user.id;
+            let category_id = req.params.id;
+            let services = await db_services.getAllServicesUnderCategory(category_id);
+            let comments = await db_services.getAllCommentsUnderCategory(category_id);
+            let orders = await db_services.getOrdersTakenByCustomer(cus_id, category_id);
+
+            if(orders.length > 0)
+            {
+                let notify = "null";
+                console.log("you can add comments");
+                res.render("services", {notify, services, comments, category_id});
+            }else {
+               let notify = "you must take the service to add comments";
+                res.render("services",{notify, services, comments, category_id});
+            }
+        }else {
+            res.redirect("/api");
+        }
+    }
 
 
     // fetch = async (req, res, next) => {
