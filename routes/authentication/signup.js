@@ -13,16 +13,16 @@ const router = express.Router({mergeParams : true});
 router.get('/', (req, res) => {
     console.log('line 14');
     // check if already logged in
-    if(req.customer == null){
+    if(req.user == null){
         const errors = [];
         res.render('signup.ejs', {
             title : 'Sign Up - Esheba',
-            customer : null,
+            user : null,
             errors : errors
         });
     } else {
         console.log('in get method');
-        res.redirect('/api/services/1');
+        res.redirect('/api/category/all');
     }
 });
 
@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
 router.post('/', async (req, res) => {
     console.log('entered post method');
     // check if already logged in
-    if(req.customer == null){
+    if(req.user == null){
         let results, errors = [];
 
         // check if email is alredy used or not
@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
             res.render('signup.ejs', {
                 title : 'Sign Up - Esheba',
                 body : ['signup'],
-                customer : null,
+                user : null,
                 errors : errors,
                 form : {
                     name : req.body.name,
@@ -91,12 +91,12 @@ router.post('/', async (req, res) => {
                     await authUtils.loginCustomer(res, result[0].CUSTOMER_ID);
                     // redirect to home page
                     //res.redirect(`/profile/${user.handle}/settings`);
-                    res.redirect('/api/services/1');
+                    res.redirect('/api/category/all');
                 }
             });
         }
     } else {
-        res.redirect('/api/services/1');
+        res.redirect('/api/category/all');
     }
 });
 

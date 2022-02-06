@@ -18,7 +18,7 @@ app.use(cookieParser());
 //view engine set up
 app.set('view engine','ejs');
 
-app.use(express.static('public')); 
+app.use(express.static(__dirname + '/public')); 
 
 // DO VERSIONING STUFFS HERE
 app.use(auth);

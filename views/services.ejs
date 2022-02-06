@@ -9,17 +9,37 @@
     <title>Esheba Services</title>
   </head>
   <body>
-    <div class="services under category">
-      <% if (services.length > 0) { %> <% services.forEach(service => { %>
-      <h3 class="service-name"><%= service.NAME %></h3>
-      <p class="description">
-        <strong>Description: </strong> <%= service.DESCRIPTION %>
-      </p>
-      <p class="cost"><strong>Cost: </strong><%= service.COST %></p>
-      <% }) %> <% } else { %>
-      <p>There are no services to display...</p>
-      <% } %>
-    </div>
+    <form action="/api/services/<%=category_id%>" method="post">
+      <div class="services under category">
+        <% if (services.length > 0) { %> <% services.forEach(service => { %>
+        <div>
+          <h3 class="service-name"><%= service.NAME %></h3>
+          <label>
+            <input
+              type="checkbox"
+              name="checkedService"
+              value="<%= service.ID %>"
+            />Order this service <%= service.NAME %></label
+          >
+        </div>
+        <p class="description">
+          <strong>Description: </strong> <%= service.DESCRIPTION %>
+        </p>
+        <p class="cost"><strong>Cost: </strong><%= service.COST %></p>
+        <% }) %> <% } else { %>
+        <p>There are no services to display...</p>
+        <% } %>
+      </div>
+    
+    <form action="/api/services/<%=category_id%>" method="post">
+      <div>
+        <input
+          type="submit"
+          value="Add Order"
+          class="btn btn-link my-order-btn"
+        />
+      </div>
+    </form>
     <div class="comment-section">
       <% if (comments.length > 0) { %>
       <h3>Customer Feedbacks:</h3>

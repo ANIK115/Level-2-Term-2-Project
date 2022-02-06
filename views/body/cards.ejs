@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="cards.css" /> -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <style>
+      .cards {
+        margin: 0 auto;
+        max-width: 1000px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+        grid-auto-rows: auto;
+        gap: 20px;
+        font-family: sans-serif;
+        padding-top: 30px;
+      }
+
+      .cards * {
+        box-sizing: border-box;
+      }
+
+      .card__image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        display: block;
+        border-top: 2px solid #ca2828;
+        border-right: 2px solid #c73636;
+        border-left: 2px solid #c51515;
+      }
+
+      .card__content {
+        color: black;
+        line-height: 1.5;
+        font-size: 0.9em;
+        padding: 15px;
+        background: #fafafa;
+        border-right: 2px solid #333333;
+        border-left: 2px solid #333333;
+      }
+      .card__content2 {
+        line-height: 1.5;
+        font-size: 0.9em;
+        padding: 15px;
+        background: #fafafa;
+        border-right: 2px solid #333333;
+        border-left: 2px solid #333333;
+      }
+
+      .card__content p {
+        margin-top: 0;
+      }
+
+      .card__content2 p {
+        margin-bottom: 0;
+      }
+
+      .card__info {
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #555555;
+        background: #eeeeee;
+        font-size: 0.8em;
+        border-bottom: 2px solid #333333;
+        border-right: 2px solid #333333;
+        border-left: 2px solid #333333;
+      }
+
+      .card__info i {
+        font-size: 0.9em;
+        margin-right: 8px;
+      }
+
+      .card__link {
+        color: #e73414;
+        text-decoration: none;
+      }
+
+      .card__link:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cards">
+      <% if (categories.length > 0) { %> <% categories.forEach(cat => { %>
+      <div class="card">
+        <img
+          class="card__image"
+          src="https://cdn.xxl.thumbs.canstockphoto.com/service-3d-human-character-and-service-concept-3d-render-illustration-clipart_csp5757531.jpg"
+        />
+        <div class="card__content">
+          <p><strong><%= cat.CATEGORY_NAME %></strong></p>
+        </div>
+        <div class="card__content2">
+          <p><strong>Description: </strong> <%= cat.DESCRIPTION %></p>
+        </div>
+
+        <div class="card__info">
+          <div><i class="material-icons">thumb_up</i>140</div>
+          <div>
+            <a href="/api/services/<%=cat.CATEGORY_ID%>" class="card__link"
+              ><strong> View Services </strong></a
+            >
+          </div>
+        </div>
+      </div>
+      <% }) %> <% } else { %> <% } %>
+    </div>
+  </body>
+</html>

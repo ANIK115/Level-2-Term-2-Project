@@ -18,6 +18,7 @@ router.post('/logout', async (req, res) =>{
 });
 
 router.get('/:id',controller.list);
+router.post('/:id',controller.addOrder);
 router.post('/:id',controller.addComment);
 
 

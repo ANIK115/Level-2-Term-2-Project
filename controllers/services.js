@@ -26,11 +26,36 @@ class ServiceController extends Controller {
             let services = await db_services.getAllServicesUnderCategory(category_id);
             let comments = await db_services.getAllCommentsUnderCategory(category_id);
             let orders = await db_services.getOrdersTakenByCustomer(cus_id, category_id);
+            console.log(req.body.checkedService);
 
             if(orders.length > 0)
             {
                 let notify = "null";
                 console.log("you can add comments");
+                res.render("services", {notify, services, comments, category_id});
+            }else {
+               let notify = "you must take the service to add comments";
+                res.render("services",{notify, services, comments, category_id});
+            }
+        }else {
+            res.redirect("/api");
+        }
+    }
+
+    addOrder = async(req, res ) => {
+        if(req.user !== null) {
+            console.log(req.body.checkedService);
+            let cus_id = req.user.id;
+            let category_id = req.params.id;
+            let services = await db_services.getAllServicesUnderCategory(category_id);
+            let comments = await db_services.getAllCommentsUnderCategory(category_id);
+            let orders = await db_services.getOrdersTakenByCustomer(cus_id, category_id);
+            console.log(req.body.checkedService);
+
+            if(orders.length > 0)
+            {
+                let notify = "null";
+                console.log(req.body.checkedService);
                 res.render("services", {notify, services, comments, category_id});
             }else {
                let notify = "you must take the service to add comments";
