@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("./headers/customer_home.ejs") %>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Comments</title>
+    <style>
+      .cat__image {
+        width: 500px;
+        height: 250px;
+        object-fit: cover;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="comment-section">
+      <img class="cat__image" src="<%= cat_img %>" alt="" />
+      <h3>Customer Feedbacks about <%=cat_name %></h3>
+      <h4>Ratings: <%= rating%></h4>
+      <% if (comments.length > 0) { %> <% comments.forEach(comment => { %>
+      <h3 class="customer"><%= comment.CUSTOMER_NAME %></h3>
+      <p class="feedback">
+        <strong>Feedback: </strong> <%= comment.COMMENTS %>
+      </p>
+      <p class="ratings"><strong>Rating: </strong> <%= comment.STAR %></p>
+      <% }) %> <% } else { %> <% } %>
+    </div>
+  </body>
+</html>

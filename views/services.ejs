@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  <%- include("./headers/customer_home.ejs") %>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -40,52 +41,5 @@
         />
       </div>
     </form>
-    <div class="comment-section">
-      <% if (comments.length > 0) { %>
-      <h3>Customer Feedbacks:</h3>
-      <% comments.forEach(comment => { %>
-      <h3 class="customer"><%= comment.CUSTOMER_NAME %></h3>
-      <p class="feedback">
-        <strong>Feedback: </strong> <%= comment.COMMENTS %>
-      </p>
-      <p class="ratings"><strong>Rating: </strong> <%= comment.STAR %></p>
-      <% }) %> <% } else { %> <% } %>
-    </div>
-    <div>
-      <form action="/api/services/addcomment" method="post">
-        <div class="col-8">
-          <input
-            type="comment"
-            class="form-control"
-            name="comment"
-            required
-            value="<%= (typeof form != 'undefined')? form.address : '' %>"
-          />
-        </div>
-      </form>
-    </div>
-    <div>
-      <form action="/api/services/<%=category_id%>" method="post">
-        <div>
-          <input
-            type="submit"
-            value="Add comment"
-            class="btn btn-link my-comment-btn"
-          />
-        </div>
-        <div>
-          <% if(notify.toLowerCase() === "null"){ %>
-          <p></p>
-          <% } else { %>
-          <p><%=notify%></p>
-          <% } %>
-        </div>
-      </form>
-    </div>
-    <div>
-      <form action="/api/services/logout" method="POST" class="my-logout-form">
-        <input type="submit" value="log out" class="btn btn-link my-non-btn" />
-      </form>
-    </div>
   </body>
 </html>

@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
         });
     } else {
         console.log('in get method');
-        res.redirect('/api/category/all');
+        res.redirect(`${process.env.CATEGORY_URL}`);
     }
 });
 
@@ -91,12 +91,12 @@ router.post('/', async (req, res) => {
                     await authUtils.loginCustomer(res, result[0].CUSTOMER_ID);
                     // redirect to home page
                     //res.redirect(`/profile/${user.handle}/settings`);
-                    res.redirect('/api/category/all');
+                    res.redirect(`${process.env.CATEGORY_URL}`);
                 }
             });
         }
     } else {
-        res.redirect('/api/category/all');
+        res.redirect(`${process.env.CATEGORY_URL}`);
     }
 });
 

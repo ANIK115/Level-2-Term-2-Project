@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
             errors : errors
         })
     } else {
-        res.redirect('/api/category/all');
+        res.redirect(`${process.env.CATEGORY_URL}`);
     }
 });
 
@@ -57,7 +57,7 @@ router.post('/', async (req, res) => {
         // if any error, redirect to login page but with form information, else redirect to homepage
         if(errors.length == 0){
             // res.redirect('/api/services/1');
-            res.redirect('/api/category/all');
+            res.redirect(`${process.env.CATEGORY_URL}`);
         } else {
             res.render('login.ejs', {
                 title : 'Login - Esheba',
@@ -71,7 +71,7 @@ router.post('/', async (req, res) => {
             });
         }
     } else {
-        res.redirect('/api/category/all');
+        res.redirect(`${process.env.CATEGORY_URL}`);
     }
 });
 

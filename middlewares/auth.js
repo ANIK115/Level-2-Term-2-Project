@@ -17,6 +17,7 @@ function auth(req, res, next){
             } else {
                 // get user prompt (id, handle, message count) from id
                 const decodedId = decoded.id;
+                console.log(decodedId);
                 let results = await DB_auth.getCustomerById(decodedId);
                 console.log(decodedId);
 
