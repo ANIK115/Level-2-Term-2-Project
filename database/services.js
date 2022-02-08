@@ -104,6 +104,13 @@ async function getOrdersTakenByCustomer(id, cat_id)
     }
     return (await database.execute(sql, binds, database.options)).rows;
 }
+async function getCategoryIDFromServiceID(id) {
+    const sql = `SELECT CATEGORY_ID FROM SERVICE WHERE SERVICE_ID = :id`;
+    const binds = {
+        id : id 
+    };
+    return (await database.execute(sql, binds, database.options)).rows;
+}
 
 module.exports = {
     getAllServicesUnderCategory,
@@ -115,5 +122,6 @@ module.exports = {
     getCustomerFromOrder,
     getServiceID,
     getAllServices,
-    getOrdersTakenByCustomer
+    getOrdersTakenByCustomer,
+    getCategoryIDFromServiceID
 }

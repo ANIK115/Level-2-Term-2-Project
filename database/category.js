@@ -35,11 +35,34 @@ async function getCategoryName(id)
 
  }
 
+ async function addRating(cid, star, comments, cat_id, review_id)
+ {
+     const sql = `INSERT INTO RATINGS (REVIEW_ID, STAR, COMMENTS, C_ID, CAT_ID)
+     VALUES (:rid, :star, :comments, :cid, :catid)`;
+     const binds = {
+        rid : review_id,
+        star : star,
+        comments : comments,
+        cid : cid,
+        catid : cat_id
+     };
+     await database.execute(sql, binds, {});
+     return;
+
+ }
+ async function totalComments()
+ {
+     const sql =`SELECT COUNT(*) AS TOTAL FROM RATINGS`;
+     return (await database.execute(sql, {}, database.options)).rows;
+ }
+
 
 
 module.exports = {
 getAllCategory,
 getAllCommentsUnderCategory,
 getCategoryName,
-getRating
+getRating,
+addRating,
+totalComments
 }

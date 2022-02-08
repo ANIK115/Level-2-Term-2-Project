@@ -1,5 +1,6 @@
 const Controller = require('./base').Controller;
 const db_services = require('../database/services');
+const db_cart = require('../database/cart');
 
 class ServiceController extends Controller {
     constructor() {
@@ -13,34 +14,45 @@ class ServiceController extends Controller {
         let comments = await db_services.getAllCommentsUnderCategory(category_id);
         let notify = "null";
         // let category_name = category[0].CATNAME;
-        res.render('services', {services, comments, notify, category_id});
+        res.render('body/service_cards.ejs', {services, comments, notify, category_id});
         }else {
             res.redirect("/api");
         }
     };
 
-    addComment = async(req, res ) => {
+    addCart = async (req,res) => {
         if(req.user !== null) {
-            let cus_id = req.user.id;
-            let category_id = req.params.id;
-            let services = await db_services.getAllServicesUnderCategory(category_id);
-            let comments = await db_services.getAllCommentsUnderCategory(category_id);
-            let orders = await db_services.getOrdersTakenByCustomer(cus_id, category_id);
-            console.log(req.body.checkedService);
-
-            if(orders.length > 0)
+            console.log("add cart");
+            let sid = req.params.id;
+            let cat_id = await db_services.getCategoryIDFromServiceID(sid);
+            cat_id = cat_id[0].CATEGORY_ID;
+            let cid = req.user.id;
+            console.log(`${cid} in add cart`);
+            let count = await db_cart.getCartList(cid, sid);
+            count = count[0].COUNT;
+            if(count == 0)
             {
-                let notify = "null";
-                console.log("you can add comments");
-                res.render("services", {notify, services, comments, category_id});
+                await db_cart.addToCart(cid, sid, 1);
+                console.log(`${cid} added this service`);
             }else {
-               let notify = "you must take the service to add comments";
-                res.render("services",{notify, services, comments, category_id});
+                console.log("Already added!......");
             }
-        }else {
-            res.redirect("/api");
+            
+            res.redirect(`/api/services/${cat_id}`);
         }
     }
+
+    showCart = async(req,res) => {
+        if(req.user !== null) {
+            let cid = req.user.id;
+
+            let carts = await db_cart.getAllCart(cid);
+
+            res.send(carts);
+        }
+    }
+
+    
 
     addOrder = async(req, res ) => {
         if(req.user !== null) {

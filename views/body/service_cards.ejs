@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("../headers/customer_home.ejs") %>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="cards.css" /> -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <style>
+      .cards {
+        margin: 0 auto;
+        max-width: 1500px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+        grid-auto-rows: auto;
+        gap: 40px;
+        font-family: sans-serif;
+        padding-top: 30px;
+        padding-bottom: 30px;
+      }
+
+      .cards * {
+        box-sizing: border-box;
+      }
+
+      .card__image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        display: block;
+        border-top: 2px solid #ca2828;
+        border-right: 2px solid #c73636;
+        border-left: 2px solid #c51515;
+      }
+
+      .card__content {
+        color: black;
+        line-height: 1.5;
+        font-size: 0.9em;
+        padding: 15px;
+        background: #fafafa;
+        border-right: 2px solid #333333;
+        border-left: 2px solid #333333;
+      }
+      .card__content2 {
+        height: auto;
+        line-height: 1.5;
+        font-size: 0.9em;
+        padding: 15px;
+        background: #fafafa;
+        border-right: 2px solid #333333;
+        border-left: 2px solid #333333;
+      }
+
+      .card__content p {
+        margin-top: 0;
+      }
+
+      .card__content2 p {
+        margin-bottom: 0;
+      }
+
+      .card__info {
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #555555;
+        background: #eeeeee;
+        font-size: 0.8em;
+        border-bottom: 2px solid #333333;
+        border-right: 2px solid #333333;
+        border-left: 2px solid #333333;
+      }
+
+      .card__info i {
+        font-size: 0.9em;
+        margin-right: 8px;
+      }
+
+      .card__link {
+        color: #e73414;
+        text-decoration: none;
+      }
+
+      .card__link:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="cards">
+        <% if (services.length > 0) { %> <% services.forEach(service => { %>
+        <div class="card">
+          <img
+            class="card__image"
+            src="https://congtymoitruong.com.vn/upload/elfinder/bao-tri-he-thong-xu-ly-nuoc-thai.jpg"
+          />
+          <div class="card__content">
+            <p><strong><%= service.NAME %></strong></p>
+          </div>
+          <div class="card__content2">
+            <p><strong>Description: </strong> <%= service.DESCRIPTION %></p>
+          </div>
+          <div class="card__content2">
+            <p><strong>Cost: </strong> <%= service.COST %></p>
+          </div>
+
+          <div class="card__info">
+            <div><i class="material-icons">thumb_up</i>140</div>
+            <div>
+              <a href="/api/services/cart/<%= service.ID%>" class="card__link"
+                ><strong> Add to Cart </strong></a
+              >
+            </div>
+          </div>
+        </div>
+        <% }) %> <% } else { %> <% } %>
+      </div>
+    </div>
+  </body>
+  <%- include("../footers/footer.ejs") %>
+</html>

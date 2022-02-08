@@ -17,9 +17,9 @@ router.post('/logout', async (req, res) =>{
     res.redirect('/api');
 });
 
+router.get('/carts',controller.showCart);
 router.get('/:id',controller.list);
-router.post('/:id',controller.addOrder);
-router.post('/:id',controller.addComment);
+router.get('/cart/:id',controller.addCart);
 
 
 module.exports = router;

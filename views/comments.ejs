@@ -13,20 +13,71 @@
         object-fit: cover;
         display: block;
       }
+      .insert-comment {
+        padding-top: 10px;
+        padding-right: 5px;
+        padding-bottom: 10px;
+      }
+      .star {
+        padding-left: 10px;
+        padding-top: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+      }
     </style>
   </head>
   <body>
     <div class="comment-section">
       <img class="cat__image" src="<%= cat_img %>" alt="" />
       <h3>Customer Feedbacks about <%=cat_name %></h3>
-      <h4>Ratings: <%= rating%></h4>
+      <br>
+      <h3>Average Ratings: <%= rating%></h3>
+      <br>
       <% if (comments.length > 0) { %> <% comments.forEach(comment => { %>
       <h3 class="customer"><%= comment.CUSTOMER_NAME %></h3>
       <p class="feedback">
         <strong>Feedback: </strong> <%= comment.COMMENTS %>
       </p>
       <p class="ratings"><strong>Rating: </strong> <%= comment.STAR %></p>
+      <br>
       <% }) %> <% } else { %> <% } %>
+    </div>
+    <div class="insert-comment">
+      <p><h3>Give Rating and Feedback</h3></p>
+      <br />
+      <form action="/api/category/<%= cat_id%>/comments" method="post">
+      <input type="radio" name="star" value="1" />
+      <label for="radio" class="star"> <strong>1 STAR </strong></label>
+      <input type="radio" name="star" value="2" />
+      <label for="radio" class="star"><strong>2 STAR </strong> </label>
+      <input type="radio" name="star" value="3" />
+      <label for="radio" class="star"><strong>3 STAR </strong> </label>
+      <input type="radio" name="star" value="4" />
+      <label for="radio" class="star"><strong>4 STAR </strong></label>
+      <input type="radio" name="star" value="5" />
+      <label for="radio" class="star"><strong>5 STAR </strong> </label>
+      <br />
+      <br />
+      <textarea
+        name="comment_field"
+        cols="50"
+        rows="5"
+        placeholder="Enter Your Feedback"
+      ></textarea>
+      <div>
+        <input type="submit" value="Add Comment" class="comment_btn" />
+      </div>
+        <div>
+          <% if(notify.toLowerCase() === "null"){ %>
+          <p></p>
+          <% } else { %>
+          <p><h3><%=notify%></h3></p>
+          <% } %>
+        </div>
+      </form>
+    </div>
+    <div>
+
     </div>
   </body>
 </html>

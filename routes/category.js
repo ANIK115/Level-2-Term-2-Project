@@ -7,5 +7,6 @@ let controller = new CategoryController();
 
 router.get('/all',controller.list);
 router.get('/:id/comments', controller.showComments);
+router.post('/:id/comments', controller.addComment);
 
 module.exports = router;
