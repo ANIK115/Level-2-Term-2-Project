@@ -45,10 +45,18 @@ class ServiceController extends Controller {
     showCart = async(req,res) => {
         if(req.user !== null) {
             let cid = req.user.id;
+            let services = await db_cart.getAllCart(cid);
+            res.render("body/cart.ejs", {services});
+        }
+    }
 
-            let carts = await db_cart.getAllCart(cid);
-
-            res.send(carts);
+    removeCart = async(req,res)=> {
+        if(req.user !==null) {
+            let cid = req.user.id;
+            let sid = req.params.id;
+            console.log(sid);
+            await db_cart.removeFromCart(cid,sid);
+            res.redirect("/api/services/carts");
         }
     }
 

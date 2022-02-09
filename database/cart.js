@@ -22,9 +22,11 @@ async function getCartList(cid, sid)
 }
 async function getAllCart(cid)
 {
-    const sql = `SELECT * FROM CART WHERE C_ID = :cid`;
+    const sql = `SELECT S.SERVICE_NAME AS NAME, S.COST AS PRICE, C.QUANTITY AS QUANTITY, C.S_ID AS ID
+    FROM CART C JOIN SERVICE S ON (C.S_ID = S.SERVICE_ID)
+    WHERE C.C_ID = :cid`;
     const binds = {
-        cid : cid
+        cid : cid 
     };
     return (await database.execute(sql, binds, database.options)).rows;
 }
@@ -38,10 +40,21 @@ async function updateCart(cid, quantity)
     await database.execute(sql, binds, {});
     return;
 }
+async function removeFromCart(cid, sid)
+{
+    const sql = `DELETE FROM CART WHERE C_ID = :cid AND S_ID = :sid`;
+    const binds = {
+        cid : cid,
+        sid : sid
+    };
+    await database.execute(sql, binds, {});
+    return;
+}
 
 module.exports = {
     addToCart,
     getCartList,
     updateCart,
-    getAllCart
+    getAllCart,
+    removeFromCart
 }
