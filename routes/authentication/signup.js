@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
             user : null,
             errors : errors
         });
-    } else {
+    } else if(req.user.userType==="customer"){
         console.log('in get method');
         res.redirect(`${process.env.CATEGORY_URL}`);
     }

@@ -37,6 +37,7 @@ async function loginProvider(res, userId){
         maxAge: 90000000, //expire duration of the token in milliseconds
         httpOnly: true
     }
+    console.log("Provider logged in");
     res.cookie('sessionToken', token, options);
 }
 

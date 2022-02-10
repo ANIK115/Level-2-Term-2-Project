@@ -9,10 +9,20 @@ router.get("/", async (req,res) => {
         const homeUrl = "api";
         const signup = homeUrl + "/signup";
         const login = homeUrl + "/login";
-        res.render('body/index.ejs',{signup, login });
+        const signupsp = homeUrl + "/provider/reg_form";
+        const loginsp = homeUrl + "/login/sp";
+        res.render('body/index.ejs',{signup, login, signupsp, loginsp });
     }else {
-        console.log(req.user.id);
-        res.redirect("/api/category/all");
+        if(req.user.userType === "customer")
+        {
+            console.log(req.user.userType);
+            res.redirect("/api/category/all");
+        }else if(req.user.userType==="provider")
+        {
+            console.log(req.user.userType);
+            res.send("you are a provider!!!");
+        }
+        
     }
 });
 router.use("/signup",require('../authentication/signup'));

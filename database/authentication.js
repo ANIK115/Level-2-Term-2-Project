@@ -54,12 +54,12 @@ async function getLoginInfoByEmail(email)
 async function updateProviderTokenById(id, token){
     console.log('provider token updated');
     const sql = `
-        UPDATE PROVIDER SET TOKEN = :token WHERE PROVIDER_ID = :id`;
+        UPDATE SERVICE_PROVIDER SET TOKEN = :token WHERE PROVIDER_ID = :id`;
         const binds = {
             id : id,
             token : token
         }
-    return (await database.execute(sql, binds , database.options)).rows;
+    return (await database.execute(sql, binds , {}));
 }
 
 async function getLoginInfoByEmailofSP(email)

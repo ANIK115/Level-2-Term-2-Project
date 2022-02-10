@@ -14,7 +14,7 @@ const router = express.Router({mergeParams : true});
 router.get('/reg_form', async (req, res) => {
     console.log('line 14');
     // check if already logged in
-    if(true){
+    if(req.user == null){
         console.log('trying to render add sp');
         const errors = [];
         const allServices = await ss.getAllServices();
@@ -25,22 +25,10 @@ router.get('/reg_form', async (req, res) => {
             errors : errors,
             allServices : allServices
         });
+    } else if(req.user.userType==="provider"){
+        res.send("Provider is already signed in!");
     } else {
-        console.log('in get method provider reg');
-        const errors = [];
-        res.render('add_sp.ejs', {
-            title : 'Sign Up as a Service Provider - Esheba',
-            user : null,
-            errors : errors,
-            form : {
-                name : req.body.name,
-                email : req.body.email,
-                password : req.body.password,
-                password2 : req.body.password2,
-                phone : req.body.phone,
-                licence_id : req.body.licence_id
-            }
-        });
+        res.redirect(`${process.env.CATEGORY_URL}`);
     }
 });
 
@@ -48,7 +36,7 @@ router.get('/reg_form', async (req, res) => {
 router.post('/reg_form', async (req, res) => {
     console.log('entered post method');
     // check if already logged in
-    if(true){
+    if(req.user == null){
         console.log("entered if");
         let results, errors = [], allServices;
 
@@ -57,7 +45,7 @@ router.post('/reg_form', async (req, res) => {
         // check if email is alredy used or not
         results = await db_authentication.getProviderIdByEmail(req.body.email);
         if(results.length > 0)
-            errors.push('Email is already registered to a customer');
+            errors.push('Email is already registered to a Service Provider');
 
         console.log('passed email checking');
         // check if password confimation is right
@@ -116,10 +104,10 @@ router.post('/reg_form', async (req, res) => {
                     let sp = await db_authentication.getServiceProviderByName(service_provider.name);
                     console.log(sp);
                     // login the user too
-                    //await authUtils.loginProvider(res, result[0].PROVIDER_ID);
+                    await authUtils.loginProvider(res, result[0].PROVIDER_ID);
                     // redirect to home page
                     //res.redirect(`/profile/${user.handle}/settings`);
-                    res.send('sign up done');
+                    res.send('provider sign up done');
                 }
             });
         }

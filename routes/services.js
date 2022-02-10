@@ -13,6 +13,7 @@ router.post('/logout', async (req, res) =>{
         // set null in token
         console.log("entered customer logout");
         await DB_auth.updateCustomerTokenById(req.user.id, null);
+        req.user.userType = "none";
     }
     res.redirect('/api');
 });

@@ -21,7 +21,8 @@ app.set('view engine','ejs');
 app.use(express.static(__dirname + '/public')); 
 
 // DO VERSIONING STUFFS HERE
-app.use(auth);
+app.use(auth.auth);
+app.use(auth.spAuth);
 app.use('/api',require('./routes/api/api'));
 
 
