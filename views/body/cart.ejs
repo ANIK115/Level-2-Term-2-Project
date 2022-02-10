@@ -33,7 +33,7 @@
       .product {
         display: flex;
         width: 100%;
-        height: 200px;
+        height: 300px;
         overflow: hidden;
         border: 1px solid silver;
       }
@@ -44,7 +44,7 @@
       }
       .product > img {
         width: 300px;
-        height: 200px;
+        height: 300px;
         object-fit: cover;
       }
       .product > img:hover {
@@ -57,7 +57,9 @@
       }
       .product-name,
       .product-price,
-      .product-offer {
+      .product-offer,
+      .product-discounted-price,
+      .product-quantity > a {
         margin-bottom: 20px;
       }
       .product-remove {
@@ -135,7 +137,9 @@
         }
         .product-name,
         .product-price,
-        .product-offer {
+        .product-offer,
+        .product-discounted-price,
+        .product-quantity > a{
           margin-bottom: 10px;
         }
       }
@@ -167,8 +171,9 @@
             />
             <div class="product-info">
               <h3 class="product-name"><%= service.NAME %></h3>
-              <h2 class="product-price"><%= service.PRICE %></h2>
-              <h2 class="product-offer"><%= service.OFFER %></h2>
+              <h3 class="product-price">Price: <%= service.PRICE %></h3>
+              <h3 class="product-discounted-price">Discounted Price: <%= service.DISCOUNTED_PRICE %></h3>
+              <h3 class="product-offer">Sub Total: <%= service.SUB_TOTAL %></h3>
               <p class="product-quantity">
                 <form action="/api/services/carts/<%= service.ID%>" method="post">
                   Quantity: <input type="number" min="1" value="<%=service.QUANTITY %>" name="quantity2" />
@@ -194,7 +199,7 @@
             After proceeding to checkout you'll get to know about the total
             price and discounted price. There you can confirm your order.
           </p>
-          <a href="#">Proceed to Checkout</a>
+          <a href="/api/services/order">Proceed to Checkout</a>
         </div>
       </div>
     </div>

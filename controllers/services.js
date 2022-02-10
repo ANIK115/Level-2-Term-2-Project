@@ -20,6 +20,15 @@ class ServiceController extends Controller {
         }
     };
 
+    offers = async (req,res) => {
+        if(req.user !==null) {
+            if(req.user.userType === "customer") {
+                let services = await db_services.getOfferedServices();
+                res.render('body/offers.ejs', {services});
+            }
+        }
+    }
+
     addCart = async (req,res) => {
         if(req.user !== null) {
             console.log("add cart");
@@ -39,6 +48,26 @@ class ServiceController extends Controller {
             }
             
             res.redirect(`/api/services/${cat_id}`);
+        }
+    }
+
+    addCartFromOffers = async (req,res) => {
+        if(req.user !== null) {
+            console.log("add cart from offers");
+            let sid = req.params.id;
+            let cid = req.user.id;
+            console.log(`${cid} in add cart`);
+            let count = await db_cart.getCartList(cid, sid);
+            count = count[0].COUNT;
+            if(count == 0)
+            {
+                await db_cart.addToCart(cid, sid, 1);
+                console.log(`${cid} added this service`);
+            }else {
+                console.log("Already added!......");
+            }
+            
+            res.redirect(`/api/services/offers`);
         }
     }
 
@@ -73,27 +102,21 @@ class ServiceController extends Controller {
 
     
 
-    addOrder = async(req, res ) => {
-        if(req.user !== null) {
-            console.log(req.body.checkedService);
-            let cus_id = req.user.id;
-            let category_id = req.params.id;
-            let services = await db_services.getAllServicesUnderCategory(category_id);
-            let comments = await db_services.getAllCommentsUnderCategory(category_id);
-            let orders = await db_services.getOrdersTakenByCustomer(cus_id, category_id);
-            console.log(req.body.checkedService);
-
-            if(orders.length > 0)
-            {
-                let notify = "null";
-                console.log(req.body.checkedService);
-                res.render("services", {notify, services, comments, category_id});
+    renderOrder = async(req,res) => {
+        if(req.user !==null) {
+            if(req.user.userType === "customer") {
+                let cid = req.user.id;
+                let services = await db_cart.getAllCart(cid);
+                let price = await db_cart.getTotalPrice(cid);
+                const totalPrice = price[0].TOTAL;
+                const saved = price[0].SAVED;
+                console.log("Entered render order");
+                console.log(req.user.userType);
+                console.log(totalPrice);
+                res.render("body/orders.ejs", {services, totalPrice, saved});
             }else {
-               let notify = "you must take the service to add comments";
-                res.render("services",{notify, services, comments, category_id});
+                console.log(req.user.userType);
             }
-        }else {
-            res.redirect("/api");
         }
     }
 

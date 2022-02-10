@@ -2,7 +2,11 @@ const database = require('./database');
 
 async function addToCart(cid, sid, quantity)
 {
-    const sql = `INSERT INTO CART (C_ID, S_ID, QUANTITY) VALUES (:cid, :sid, :quantity)`;
+    const sql = `
+        BEGIN
+            CREATE_CART(:cid, :sid, :quantity);
+        END;
+    `;
     const binds = {
         cid : cid,
         sid : sid,
@@ -22,7 +26,7 @@ async function getCartList(cid, sid)
 }
 async function getAllCart(cid)
 {
-    const sql = `SELECT S.SERVICE_NAME AS NAME, S.COST AS PRICE, C.QUANTITY AS QUANTITY, C.S_ID AS ID
+    const sql = `SELECT S.SERVICE_NAME AS NAME, S.COST AS PRICE, C.PRICE AS DISCOUNTED_PRICE, C.QUANTITY AS QUANTITY, C.S_ID AS ID, (C.PRICE*C.QUANTITY) AS SUB_TOTAL
     FROM CART C JOIN SERVICE S ON (C.S_ID = S.SERVICE_ID)
     WHERE C.C_ID = :cid`;
     const binds = {
@@ -61,6 +65,14 @@ async function removeFromCart(cid, sid)
     await database.execute(sql, binds, {});
     return;
 }
+async function getTotalPrice(cid)
+{
+    const sql = `SELECT SUM(C.PRICE*C.QUANTITY) AS TOTAL, (SUM(S.COST*C.QUANTITY)-SUM(C.PRICE*C.QUANTITY)) AS SAVED FROM CART C JOIN SERVICE S ON(S.SERVICE_ID = C.S_ID) WHERE C.C_ID = :cid`;
+    const binds = {
+        cid : cid
+    };
+    return (await database.execute(sql, binds, database.options)).rows;
+}
 
 module.exports = {
     addToCart,
@@ -68,5 +80,6 @@ module.exports = {
     updateCart,
     getAllCart,
     removeFromCart,
-    updateServiceQuantity
+    updateServiceQuantity,
+    getTotalPrice
 }

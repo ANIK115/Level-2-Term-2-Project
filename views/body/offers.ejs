@@ -27,9 +27,6 @@
       .cards * {
         box-sizing: border-box;
       }
-      .card {
-        height: max-content;
-      }
 
       .card__image {
         width: 100%;
@@ -51,7 +48,7 @@
         border-left: 2px solid #333333;
       }
       .card__content2 {
-        height: 200px;
+        height: auto;
         line-height: 1.5;
         font-size: 0.9em;
         padding: 15px;
@@ -99,28 +96,32 @@
   <body>
     <div class="container">
       <div class="cards">
-        <% if (categories.length > 0) { %> <% categories.forEach(cat => { %>
+        <% if (services.length > 0) { %> <% services.forEach(service => { %>
         <div class="card">
-          <img class="card__image" src="<%=cat.IMG%>" />
+          <img
+            class="card__image"
+            src="https://congtymoitruong.com.vn/upload/elfinder/bao-tri-he-thong-xu-ly-nuoc-thai.jpg"
+          />
           <div class="card__content">
-            <p><strong><%= cat.CATEGORY_NAME %></strong></p>
+            <p><strong><%= service.NAME %></strong></p>
           </div>
+
           <div class="card__content2">
-            <p><strong>Description: </strong> <%= cat.DESCRIPTION %></p>
+            <p><strong>Cost: </strong> <%= service.COST %></p>
+            <p><strong>Discounted Cost: </strong> <%= service.DISCOUNTED %></p>
+            <p><strong>Offer: </strong> <%= service.OFFER %></p>
+            <p>
+              <strong>Offer available till: </strong> <%= service.OFFER_ENDS %>
+            </p>
           </div>
 
           <div class="card__info">
             <div><i class="material-icons">thumb_up</i>140</div>
             <div>
-              <a href="/api/services/<%=cat.CATEGORY_ID%>" class="card__link"
-                ><strong> View Services </strong></a
-              >
-            </div>
-            <div>
               <a
-                href="/api/category/<%=cat.CATEGORY_ID%>/comments"
+                href="/api/services/cart/offers/<%= service.ID%>"
                 class="card__link"
-                ><strong> View Comments </strong></a
+                ><strong> Add to Cart </strong></a
               >
             </div>
           </div>

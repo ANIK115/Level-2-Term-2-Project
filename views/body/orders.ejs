@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("../headers/customer_home.ejs") %>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <% if (services.length > 0) { %> <% services.forEach(service => { %>
+      <p><strong>Service Name</strong>: <%= service.NAME %></p>
+      <br />
+      <p><strong>Price</strong>: <%= service.PRICE %></p>
+      <br />
+      <p><strong>Quantity </strong><%= service.QUANTITY %></p>
+      <br />
+      <p>
+        <strong>Sub Total After Discounts: </strong> <%= service.SUB_TOTAL %>
+      </p>
+      <br />
+      <% }) %> <% } else { %> <% } %>
+    </div>
+    <div class="order">
+      <form action="#" method="post">
+        <br />
+        <h3>Total Price: <%= totalPrice %></h3>
+        <br />
+        <h3>You saved: <%= saved %></h3>
+        <textarea
+          name="order_notes"
+          id=""
+          cols="50"
+          rows="5"
+          placeholder="Order Notes"
+        ></textarea>
+        <br />
+        <textarea
+          name="order_address"
+          id=""
+          cols="50"
+          rows="5"
+          placeholder="Order Address"
+        ></textarea>
+        <br />
+        <button>Confirm Order</button>
+      </form>
+    </div>
+  </body>
+</html>

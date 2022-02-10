@@ -12,6 +12,14 @@ async function getAllServicesUnderCategory(id){
     return (await database.execute(sql, binds, database.options)).rows;
 }
 
+async function getOfferedServices() {
+    const sql = `SELECT S.SERVICE_ID AS ID, S.SERVICE_NAME AS NAME , S.DESCRIPTION AS DESCRIPTION, S.COST AS COST, (S.COST-S.COST*O.DISCOUNT/100) AS DISCOUNTED, O.END_DATE AS OFFER_ENDS , O.OFFER_NAME AS OFFER 
+    FROM SERVICE S LEFT JOIN OFFERS O ON (S.SERVICE_ID = O.SERVICE_ID)
+    WHERE O.END_DATE > SYSDATE
+    ORDER BY S.SERVICE_NAME`;
+    return (await database.execute(sql, {}, database.options)).rows;
+}
+
 async function getCategoryName(id) {
     const sql = `SELECT CATEGORY_NAME AS CATNAME FROM CATEGORY WHERE CATEGORY_ID = :id`;
     const binds = {
@@ -123,5 +131,6 @@ module.exports = {
     getServiceID,
     getAllServices,
     getOrdersTakenByCustomer,
-    getCategoryIDFromServiceID
+    getCategoryIDFromServiceID,
+    getOfferedServices
 }
