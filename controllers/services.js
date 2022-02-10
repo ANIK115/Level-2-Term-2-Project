@@ -54,8 +54,19 @@ class ServiceController extends Controller {
         if(req.user !==null) {
             let cid = req.user.id;
             let sid = req.params.id;
-            console.log(sid);
+            console.log(req.body.quantity);
             await db_cart.removeFromCart(cid,sid);
+            res.redirect("/api/services/carts");
+        }
+    }
+    updateCart = async(req,res)=> {
+        if(req.user !==null) {
+            let cid = req.user.id;
+            let sid = req.params.id;
+            let quan = req.body.quantity2;
+            console.log("Entered update");
+            console.log(quan);
+            await db_cart.updateServiceQuantity(cid, quan, sid);
             res.redirect("/api/services/carts");
         }
     }

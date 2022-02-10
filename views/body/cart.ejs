@@ -62,6 +62,8 @@
       }
       .product-remove {
         position: absolute;
+        margin-left: 20px;
+        margin-right: 20px;
         bottom: 20px;
         right: 20px;
         padding: 10px 25px;
@@ -70,7 +72,24 @@
         cursor: pointer;
         border-radius: 5px;
       }
+      .product-update {
+        position: absolute;
+        margin-bottom: 40px;
+        bottom: 40px;
+        right: 40px;
+        padding: 10px 25px;
+        background-color: tomato;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+      }
       .product-remove:hover {
+        background-color: lightgreen;
+        color: green;
+        font-weight: 600;
+        border: 1px solid green;
+      }
+      .product-update:hover {
         background-color: lightgreen;
         color: green;
         font-weight: 600;
@@ -103,7 +122,8 @@
         background-color: red;
       }
       @media screen and (max-width: 500px) {
-        .remove {
+        .remove,
+        .update {
           display: none;
         }
         .product {
@@ -150,9 +170,12 @@
               <h2 class="product-price"><%= service.PRICE %></h2>
               <h2 class="product-offer"><%= service.OFFER %></h2>
               <p class="product-quantity">
-                Quantity:
-                <input type="number" min="1" value="" name="quantity" />
-              </p>
+                <form action="/api/services/carts/<%= service.ID%>" method="post">
+                  Quantity: <input type="number" min="1" value="<%=service.QUANTITY %>" name="quantity2" />
+                  <button> CONFIRM </button>
+                </form>   
+              </p> 
+
               <p class="product-remove">
                 <a
                   href="/api/services/carts/<%= service.ID%>"

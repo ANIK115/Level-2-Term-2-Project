@@ -40,6 +40,17 @@ async function updateCart(cid, quantity)
     await database.execute(sql, binds, {});
     return;
 }
+async function updateServiceQuantity(cid, quantity, sid)
+{
+    const sql = `UPDATE CART SET QUANTITY = :quantity WHERE C_ID = :cid AND S_ID = :sid`;
+    const binds = {
+        cid : cid,
+        quantity : quantity,
+        sid : sid
+    };
+    await database.execute(sql, binds, {});
+    return;
+}
 async function removeFromCart(cid, sid)
 {
     const sql = `DELETE FROM CART WHERE C_ID = :cid AND S_ID = :sid`;
@@ -56,5 +67,6 @@ module.exports = {
     getCartList,
     updateCart,
     getAllCart,
-    removeFromCart
+    removeFromCart,
+    updateServiceQuantity
 }
