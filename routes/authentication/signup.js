@@ -5,12 +5,13 @@ const bcrypt = require('bcrypt');
 // my modules
 const db_authentication = require('../../database/authentication');
 const authUtils = require('../../utils/authentication_util');
+const auth = require('../../middlewares/auth');
 
 // creating router
 const router = express.Router({mergeParams : true});
 
 // ROUTE: sign up (get)
-router.get('/', (req, res) => {
+router.get('/',  auth.auth, (req, res) => {
     console.log('line 14');
     // check if already logged in
     if(req.user == null){
@@ -27,7 +28,7 @@ router.get('/', (req, res) => {
 });
 
 // ROUTE: sign up (post)
-router.post('/', async (req, res) => {
+router.post('/', auth.auth, async (req, res) => {
     console.log('entered post method');
     // check if already logged in
     if(req.user == null){
@@ -75,7 +76,8 @@ router.post('/', async (req, res) => {
                 email : req.body.email,
                 password : req.body.password,
                 address : req.body.address,
-                phone : req.body.phone
+                phone : req.body.phone,
+                type : "customer"
             }
             // hash user password
             await bcrypt.hash(customer.password, 8, async (err, hash) =>{
@@ -90,7 +92,6 @@ router.post('/', async (req, res) => {
                     // login the user too
                     await authUtils.loginCustomer(res, result[0].CUSTOMER_ID);
                     // redirect to home page
-                    //res.redirect(`/profile/${user.handle}/settings`);
                     res.redirect(`${process.env.CATEGORY_URL}`);
                 }
             });

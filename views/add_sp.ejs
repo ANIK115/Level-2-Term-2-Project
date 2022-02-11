@@ -1,5 +1,5 @@
 <div class="card w-50 mx-auto border-primary">
-  <form action="/api/provider/reg_form" method="post" class="card-body">
+  <form action="/providerapi/signup" method="post" class="card-body">
     <!-- handle -->
     <div class="form-group row">
       <label for="name" class="col-4 col-form-label">Name</label>
@@ -105,18 +105,9 @@
     <div class="form-group row">
       <input
         type="submit"
-        value="Submit"
+        value="Confirm"
         class="btn btn-primary col-2 mx-auto"
       />
     </div>
   </form>
-  <div>
-    <% if (allServices.length > 0) { %>
-    <h3>Our Servies:</h3>
-    <% allServices.forEach(s => { %>
-    <h3 class="servicenames"><%= s.SERVICE_NAME %></h3>
-    <% }) %> <% } else { %>
-    <p>No services!!!</p>
-    <% } %>
-  </div>
 </div>

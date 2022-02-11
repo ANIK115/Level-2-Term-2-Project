@@ -1,17 +1,16 @@
 const router = require('express-promise-router')();
+const auth = require('../../middlewares/auth');
+const sameBrowser = require('../../middlewares/same_browser');
 
 
-
-router.get("/", async (req,res) => {
+router.get("/", sameBrowser.protectCustomer, auth.auth, async (req,res) => {
     const id = (req.user === null)? null : req.user.id;
     if(id === null)
     {
         const homeUrl = "api";
         const signup = homeUrl + "/signup";
         const login = homeUrl + "/login";
-        const signupsp = homeUrl + "/provider/reg_form";
-        const loginsp = homeUrl + "/login/sp";
-        res.render('body/index.ejs',{signup, login, signupsp, loginsp });
+        res.render('body/index.ejs',{signup, login});
     }else {
         if(req.user.userType === "customer")
         {
@@ -29,6 +28,6 @@ router.use("/signup",require('../authentication/signup'));
 router.use("/login",require('../login'));
 router.use("/moderator",require('../moderator'));
 router.use("/services", require('../services'));
-router.use("/provider",require('../provider_reg'));
+
 router.use("/category", require('../category'));
 module.exports = router;

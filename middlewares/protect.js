@@ -1,18 +1,16 @@
-// libraries
 const jwt = require("jsonwebtoken");
 
 // my modules
 const DB_auth = require("../database/authentication");
 
-function auth(req, res, next) {
-  req.user = null;
+function protectCustomer(req, res, next) {
   // check if user has cookie token
   if (req.cookies.sessionToken) {
     let token = req.cookies.sessionToken;
     // verify token was made by server
     jwt.verify(token, process.env.APP_SECRET_TOKEN, async (err, decoded) => {
       if (err) {
-        // console.log("ERROR at verifying Customer token FROM AUTH: " + err.message);
+        console.log("ERROR at verifying Customer token from protect: " + err.message);
         next();
       } else {
         const decodedId = decoded.id;
@@ -22,9 +20,12 @@ function auth(req, res, next) {
 
         // if no such user or token doesn't match, do nothing
         if (results.length == 0) {
-          // console.log("auth: invalid cookie for customer");
+          console.log("protect customer: invalid cookie for customer");
+          res.status(400).send("You're not a valid user for this url!");
         } else if (results[0].TOKEN != token) {
-          // console.log("auth: invalid token from customer");
+          console.log("protect customer: invalid token from customer");
+          res.status(400).send("You're not a valid user for this url!");
+        next();
         } else {
           // set prompt in reqest object
           req.user = {
@@ -41,10 +42,9 @@ function auth(req, res, next) {
     next();
   }
 }
-function spAuth(req, res, next) {
-      req.user = null;
-      // check if user has cookie token
-      if (req.cookies.sessionToken) {
+
+function protectProvider(req,res,next) {
+    if (req.cookies.sessionToken) {
         let token = req.cookies.sessionToken;
         // verify token was made by server
         jwt.verify(
@@ -52,7 +52,7 @@ function spAuth(req, res, next) {
           process.env.APP_SP_TOKEN,
           async (err, decoded) => {
             if (err) {
-              // console.log("ERROR at verifying Provider token FROM AUTH: " + err.message);
+              console.log("ERROR at verifying Provider token: " + err.message);
               next();
             } else {
               const decodedId = decoded.id;
@@ -62,11 +62,11 @@ function spAuth(req, res, next) {
 
               // if no such user or token doesn't match, do nothing
               if (results.length == 0) {
-                // console.log("spAuth: invalid cookie");
-                
+                console.log("protect provider: invalid cookie");
+                res.status(400).send("You're not a valid user for this url!");
               } else if (results[0].TOKEN != token) {
-                // console.log("spAuth: invalid token from service provider");
-               
+                console.log("protect provider: invalid token from service provider");
+                res.status(400).send("You're not a valid user for this url!");
               } else {
                 // set prompt in reqest object
                 req.user = {
@@ -85,4 +85,4 @@ function spAuth(req, res, next) {
       }
 }
 
-module.exports = { auth, spAuth };
+module.exports = { protectCustomer, protectProvider };

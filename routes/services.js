@@ -2,12 +2,12 @@ const router = require('express-promise-router')();
 
 const ServiceController = require('../controllers/services').ServiceController;
 let controller = new ServiceController();
+const protect = require('../middlewares/protect').protectCustomer;
 
 // libraries
 const DB_auth = require('../database/authentication');
 
-// router.get('/all',controller.list);
-router.post('/logout', async (req, res) =>{
+router.post('/logout', protect, async (req, res) =>{
     // if logged in, delete token from database
     if(req.user !== null){
         // set null in token
@@ -17,14 +17,14 @@ router.post('/logout', async (req, res) =>{
     }
     res.redirect('/api');
 });
-router.get('/order', controller.renderOrder);
-router.get('/offers',controller.offers);
-router.post('/carts/:id', controller.updateCart);
-router.get('/carts/:id', controller.removeCart);
-router.get('/carts',controller.showCart);
-router.get('/:id',controller.list);
-router.get('/cart/:id',controller.addCart);
-router.get('/cart/offers/:id', controller.addCartFromOffers);
+router.get('/order', protect, controller.renderOrder);
+router.get('/offers',protect,controller.offers);
+router.post('/carts/:id',protect, controller.updateCart);
+router.get('/carts/:id',protect, controller.removeCart);
+router.get('/carts',protect,controller.showCart);
+router.get('/:id',protect,controller.list);
+router.get('/cart/:id',protect,controller.addCart);
+router.get('/cart/offers/:id',protect, controller.addCartFromOffers);
 
 
 

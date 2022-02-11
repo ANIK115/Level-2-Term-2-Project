@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 // my modules
 const db_authentication = require('../database/authentication');
 
+
 // function to login user into a session
 async function loginCustomer(res, userId){
     // create token
@@ -29,7 +30,9 @@ async function loginProvider(res, userId){
     const payload = {
         id: userId
     };
-    let token = jwt.sign(payload, process.env.APP_SECRET_TOKEN);
+    let token = jwt.sign(payload, process.env.APP_SP_TOKEN);
+    console.log(token);
+    console.log("That was provider token in utils");
     // put token in db
     await db_authentication.updateProviderTokenById(userId, token);
     // set token in cookie

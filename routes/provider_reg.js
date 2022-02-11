@@ -6,34 +6,35 @@ const bcrypt = require('bcrypt');
 const db_authentication = require('../database/authentication');
 const ss = require('../database/services');
 const authUtils = require('../utils/authentication_util');
+const spAuth = require('../middlewares/auth').spAuth;
+const sameBrowser = require('../middlewares/same_browser');
+
 
 // creating router
 const router = express.Router({mergeParams : true});
 
 // ROUTE: sign up (get)
-router.get('/reg_form', async (req, res) => {
-    console.log('line 14');
+router.get('/', sameBrowser.protectProvider, spAuth, async (req, res) => {
+    console.log('in provider_reg.js file sign up get method');
     // check if already logged in
     if(req.user == null){
         console.log('trying to render add sp');
         const errors = [];
         const allServices = await ss.getAllServices();
-        
+        console.log("Before rendering.....................")
         res.render('add_sp.ejs', {
             title : 'Sign Up as a Service Provider - Esheba',
             user : null,
             errors : errors,
             allServices : allServices
         });
-    } else if(req.user.userType==="provider"){
-        res.send("Provider is already signed in!");
     } else {
-        res.redirect(`${process.env.CATEGORY_URL}`);
+        res.redirect('/providerapi/home');
     }
 });
 
 // ROUTE: sign up (post)
-router.post('/reg_form', async (req, res) => {
+router.post('/', sameBrowser.protectProvider, spAuth, async (req, res) => {
     console.log('entered post method');
     // check if already logged in
     if(req.user == null){
@@ -88,7 +89,8 @@ router.post('/reg_form', async (req, res) => {
                 password : req.body.password,
                 phone : req.body.phone,
                 licence_id : req.body.licence_id, 
-                provides :  id
+                provides :  id,
+                type: "provider"
             }
             // hash user password
             await bcrypt.hash(service_provider.password, 8, async (err, hash) =>{
@@ -106,13 +108,12 @@ router.post('/reg_form', async (req, res) => {
                     // login the user too
                     await authUtils.loginProvider(res, result[0].PROVIDER_ID);
                     // redirect to home page
-                    //res.redirect(`/profile/${user.handle}/settings`);
-                    res.send('provider sign up done');
+                    res.redirect('/providerapi/home');
                 }
             });
         }
     } else {
-        res.redirect('/api');
+        res.redirect('/providerapi/home');
     }
 });
 

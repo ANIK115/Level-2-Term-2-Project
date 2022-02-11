@@ -8,11 +8,16 @@ class CategoryController extends Controller {
     }
 
     list = async (req, res, next) => {
+        if(req.user != null)  {
         let categories = await db_category.getAllCategory();
         res.render('body/cards.ejs',{categories});
+        }else {
+            res.status(400).send("You're not a valid user for this url!");
+        }
     };
 
     showComments = async (req,res) => {
+        if(req.user != null) {
         let cat_id = req.params.id;
         let comments = await db_category.getAllCommentsUnderCategory(cat_id);
         let ratings = await db_category.getRating(cat_id);
@@ -26,6 +31,9 @@ class CategoryController extends Controller {
         console.log(rating);
         let notify = "null";
         res.render('comments.ejs',{notify, comments, rating, cat_name, cat_img, cat_id});
+    }else {
+        res.status(400).send("You're not a valid user for this url!");
+    }
     }
     addComment = async(req, res ) => {
         if(req.user !== null) {
@@ -67,7 +75,7 @@ class CategoryController extends Controller {
                 res.render("comments.ejs",{notify, comments, rating, cat_name, cat_img, cat_id});
             }
         }else {
-            res.redirect("/api");
+            res.status(400).send("You're not a valid user for this url!");
         }
     }
 };

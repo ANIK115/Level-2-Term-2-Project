@@ -6,6 +6,7 @@ const cors = require('cors');
 
 
 const auth = require('./middlewares/auth');
+const errorHandling = require('./middlewares/errorHandling');
 
 
 app.use(cors());
@@ -21,9 +22,15 @@ app.set('view engine','ejs');
 app.use(express.static(__dirname + '/public')); 
 
 // DO VERSIONING STUFFS HERE
-app.use(auth.auth);
-app.use(auth.spAuth);
+// app.use(auth.auth);
+// app.use(auth.spAuth);
+
 app.use('/api',require('./routes/api/api'));
+app.use('/providerapi', require('./routes/service_provider/api'));
+
+app.use(errorHandling.notFound);
+app.use(errorHandling.errorHandler);
+
 
 
 module.exports = app;

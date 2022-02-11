@@ -16,16 +16,16 @@ class ServiceController extends Controller {
         // let category_name = category[0].CATNAME;
         res.render('body/service_cards.ejs', {services, comments, notify, category_id});
         }else {
-            res.redirect("/api");
+            res.status(400).send("You're not a valid user for this url!");
         }
     };
 
     offers = async (req,res) => {
         if(req.user !==null) {
-            if(req.user.userType === "customer") {
-                let services = await db_services.getOfferedServices();
-                res.render('body/offers.ejs', {services});
-            }
+            let services = await db_services.getOfferedServices();
+            res.render('body/offers.ejs', {services}); 
+        }else {
+            res.status(400).send("You're not a valid user for this url!");
         }
     }
 
@@ -48,6 +48,8 @@ class ServiceController extends Controller {
             }
             
             res.redirect(`/api/services/${cat_id}`);
+        }else {
+            res.status(400).send("You're not a valid user for this url!");
         }
     }
 
@@ -68,6 +70,8 @@ class ServiceController extends Controller {
             }
             
             res.redirect(`/api/services/offers`);
+        }else {
+            res.status(400).send("You're not a valid user for this url!");
         }
     }
 
@@ -76,6 +80,8 @@ class ServiceController extends Controller {
             let cid = req.user.id;
             let services = await db_cart.getAllCart(cid);
             res.render("body/cart.ejs", {services});
+        }else {
+            res.status(400).send("You're not a valid user for this url!");
         }
     }
 
@@ -86,6 +92,8 @@ class ServiceController extends Controller {
             console.log(req.body.quantity);
             await db_cart.removeFromCart(cid,sid);
             res.redirect("/api/services/carts");
+        }else {
+            res.status(400).send("You're not a valid user for this url!");
         }
     }
     updateCart = async(req,res)=> {
@@ -97,6 +105,8 @@ class ServiceController extends Controller {
             console.log(quan);
             await db_cart.updateServiceQuantity(cid, quan, sid);
             res.redirect("/api/services/carts");
+        }else {
+            res.status(400).send("You're not a valid user for this url!");
         }
     }
 
@@ -115,7 +125,7 @@ class ServiceController extends Controller {
                 console.log(totalPrice);
                 res.render("body/orders.ejs", {services, totalPrice, saved});
             }else {
-                console.log(req.user.userType);
+                res.status(400).send("You're not a valid user for this url!");
             }
         }
     }

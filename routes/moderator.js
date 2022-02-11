@@ -1,6 +1,7 @@
 const express = require('express');
 
-const db_authentication = require('../database/services');
+const db_services = require('../database/services');
+const db_cat = require('../database/category');
 const router = require('express-promise-router')();
 
 const ModeratorController = require('../controllers/moderator').ModeratorController;
@@ -8,7 +9,7 @@ let controller = new ModeratorController();
 
 
 //ROUTE: add service (get)
-router.get('/addservice', (req, res)=>{
+router.get('/addservice', async(req, res)=>{
     // if(req.user == null) {
     //     const errors = [];
     //     res.render('home.ejs', {
@@ -20,7 +21,8 @@ router.get('/addservice', (req, res)=>{
     // } else {
     //     res.redirect('/');
     // }
-    res.render('add_service.ejs');
+    let categories = await db_cat.getAllCategory();
+    res.render('add_service.ejs' , {categories});
 });
 
 // ROUTE : add service (post)
@@ -29,7 +31,7 @@ router.post('/addservice', async (req, res) => {
         let results, errors = [];
         let cat_id;
 
-        results = await db_authentication.getServiceByName(req.body.name);
+        results = await db_services.getServiceByName(req.body.name);
         if(results.length > 0)
         {
             errors.push('Name is already in use for a serive');
@@ -59,7 +61,7 @@ router.post('/addservice', async (req, res) => {
                 cost : req.body.cost
             }
 
-            await db_authentication.createNewService(service);
+            await db_services.createNewService(service);
 
             res.redirect('/api/services/1');
         }

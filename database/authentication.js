@@ -28,15 +28,16 @@ async function getCustomerById(id) {
 
 //this function returns empty row
 async function createNewCustomer(customer) {
-    const sql = `INSERT INTO CUSTOMER (NAME, EMAIL, PASSWORD, PHONE_NUMBER, ADDRESS) 
-    VALUES(:name, :email, :password, :phone, :address)
+    const sql = `INSERT INTO CUSTOMER (NAME, EMAIL, PASSWORD, PHONE_NUMBER, ADDRESS, USER_TYPE) 
+    VALUES(:name, :email, :password, :phone, :address, :user_type)
     `;
     const binds = {
         name: customer.name,
         email: customer.email,
         password: customer.password,
         phone: customer.phone,
-        address: customer.address
+        address: customer.address,
+        user_type: customer.type
     };
     await database.execute(sql, binds, {});
     return;
@@ -64,7 +65,7 @@ async function updateProviderTokenById(id, token){
 
 async function getLoginInfoByEmailofSP(email)
 {
-    const sql = `SELECT EMAIL, PASSWORD FROM SERVICE_PROVIDER WHERE EMAIL = :email`;
+    const sql = `SELECT EMAIL, PASSWORD, PROVIDER_ID FROM SERVICE_PROVIDER WHERE EMAIL = :email`;
     const binds = {
         email : email
     };
@@ -97,8 +98,8 @@ async function getServiceProviderByName(name) {
 
 //this function returns empty row
 async function createNewServiceProvider(service_provider) {
-    const sql = `INSERT INTO SERVICE_PROVIDER (NAME, EMAIL, PASSWORD, PHONE_NUMBER, LICENCE_ID, PROVIDES) 
-    VALUES(:name, :email, :password, :phone, :licence_id, :provides)
+    const sql = `INSERT INTO SERVICE_PROVIDER (NAME, EMAIL, PASSWORD, PHONE_NUMBER, LICENCE_ID, PROVIDES, USER_TYPE) 
+    VALUES(:name, :email, :password, :phone, :licence_id, :provides, :user_type)
     `;
     console.log(service_provider.name);
     console.log(service_provider);
@@ -108,7 +109,8 @@ async function createNewServiceProvider(service_provider) {
         password: service_provider.password,
         phone: service_provider.phone,
         licence_id: service_provider.licence_id,
-        provides: service_provider.provides
+        provides: service_provider.provides,
+        user_type : service_provider.type
     };
     await database.execute(sql, binds, {});
     return;
