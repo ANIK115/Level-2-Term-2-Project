@@ -7,6 +7,7 @@ let controller = new ProviderController();
 // libraries
 
 router.get('/', auth.spAuth, controller.home);
+router.get('/orders', auth.spAuth, controller.availableOrders);
 
 
 module.exports = router;

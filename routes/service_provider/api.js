@@ -19,5 +19,6 @@ router.use("/signup",require('../provider_reg'));
 router.use("/login", require('./provider_login'));
 router.use("/home", require("./provider"));
 router.use("/logout", require("./provider_logout"));
+router.use("/orders", require("./provider"));
 
 module.exports = router;

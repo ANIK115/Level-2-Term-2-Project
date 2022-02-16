@@ -13,6 +13,14 @@ class ProviderController extends Controller {
             res.status(400).send("You're not a valid user for this url!");
         }
     }
+
+    availableOrders = async(req, res) => {
+        if(req.user !== null) {
+            const pid = req.user.id;
+            let orders = await db_provider.availableOrders(pid);
+            res.render('body/service_provider/available_orders.ejs', {orders});
+        }
+    }
 };
 
 
