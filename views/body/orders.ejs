@@ -23,7 +23,7 @@
       <% }) %> <% } else { %> <% } %>
     </div>
     <div class="order">
-      <form action="#" method="post">
+      <form action="/api/services/order" method="post">
         <br />
         <h3>Total Price: <%= totalPrice %></h3>
         <br />
@@ -44,8 +44,39 @@
           placeholder="Order Address"
         ></textarea>
         <br />
+        <br />
+
+        <label for="pay_phone"></label>
+          <strong> In which number have you sent the payment? : </strong></label
+        >
+        <br />
+        <input type="radio" name="pay_phone" value="01521582030" />
+        01521582030<br />
+        <input type="radio" name="pay_phone" value="01954843608" />
+        01954843608<br />
+        <br />
+        <br />
+
+        <input type="radio" name="method" value="BKASH" /> BKASH
+        <input type="radio" name="method" value="ROCKET" /> ROCKET
+        <br />
+        <br />
+        <label for="trans"><strong> Transaction Id: </strong></label>
+        <input
+          type="text"
+          id="trans"
+          name="trans"
+          required
+          minlength="6"
+          maxlength="20"
+        />
+        <br />
+        <br />
         <button>Confirm Order</button>
+        <br>
+        <br>
       </form>
     </div>
   </body>
+  <%- include("../footers/footer.ejs") %>
 </html>

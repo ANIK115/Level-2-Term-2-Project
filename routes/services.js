@@ -18,6 +18,7 @@ router.post('/logout', protect, async (req, res) =>{
     res.redirect('/api');
 });
 router.get('/order', protect, controller.renderOrder);
+router.post('/order', protect, controller.takeOrder);
 router.get('/offers',protect,controller.offers);
 router.post('/carts/:id',protect, controller.updateCart);
 router.get('/carts/:id',protect, controller.removeCart);

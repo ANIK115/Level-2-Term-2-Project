@@ -1,6 +1,7 @@
 const Controller = require('./base').Controller;
 const db_services = require('../database/services');
 const db_cart = require('../database/cart');
+const db_orders = require('../database/orders');
 
 class ServiceController extends Controller {
     constructor() {
@@ -127,6 +128,23 @@ class ServiceController extends Controller {
             }else {
                 res.status(400).send("You're not a valid user for this url!");
             }
+        }
+    }
+
+    takeOrder = async(req, res) => {
+        if(req.user !== null) {
+            let cid = req.user.id;
+            let price = await db_cart.getTotalPrice(cid);
+            const totalPrice = price[0].TOTAL;
+            const address = req.body.order_address;
+            const notes = req.body.order_notes;
+            const pMethod = req.body.method;
+            const phn = req.body.pay_phone;
+            const trans = req.body.trans;
+            await db_orders.takeOrders(cid, address, notes, totalPrice, pMethod, trans, phn);
+            res.redirect("/api/category/all");
+        }else {
+            res.status(400).send("You're not a valid user for this url!");
         }
     }
 
