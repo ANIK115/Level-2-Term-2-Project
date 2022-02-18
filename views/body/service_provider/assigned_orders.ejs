@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Available Orders</title>
+    <title>Your Orders</title>
     <!-- <link rel="stylesheet" href="cards.css" /> -->
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -93,7 +93,7 @@
         text-decoration: underline;
       }
       .btn {
-        width: 100px;
+        width: 150px;
         height: 30px;
         font-weight: bolder;
         background-color: cyan;
@@ -102,10 +102,8 @@
   </head>
   <body>
     <div class="container">
-      
       <div class="cards">
         <% if (orders.length > 0) { %> <% orders.forEach(order => { %>
-          <form action="/providerapi/home/orders/<%=order.SID %>/ <%= order.OID %>" method="post">
         <div class="card">
           <img
             class="card__image"
@@ -124,13 +122,14 @@
 
           <div class="card__info">
             <div>
-                <button class="btn">ACCEPT</button>
+              <form action="/providerapi/home/orders" method="post">
+                <button class="btn">COMPLETE</button>
+              </form>
             </div>
           </div>
         </div>
         <% }) %> <% } else { %> <% } %>
       </div>
-    </form>
     </div>
   </body>
 </html>

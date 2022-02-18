@@ -8,6 +8,8 @@ let controller = new ProviderController();
 
 router.get('/', auth.spAuth, controller.home);
 router.get('/orders', auth.spAuth, controller.availableOrders);
+router.post('/orders/:sid/:oid', auth.spAuth, controller.accpetOrder);
+router.get('/assignedorders', auth.spAuth, controller.assignedOrders);
 
 
 module.exports = router;
