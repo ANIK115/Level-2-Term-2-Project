@@ -44,6 +44,17 @@ class ProviderController extends Controller {
             res.render('body/service_provider/assigned_orders.ejs', {orders});
         }
     }
+
+    completeOrders = async(req,res) => {
+        if(req.user !== null) {
+            const pid = req.user.id;
+            const sid = req.params.sid;
+            const oid = req.params.oid;
+            console.log(`${pid}, ${sid}, ${oid}`);
+            await db_provider.completeOrder(pid, sid, oid);
+            res.redirect('/providerapi/home/orders'); 
+        }
+    }
 };
 
 

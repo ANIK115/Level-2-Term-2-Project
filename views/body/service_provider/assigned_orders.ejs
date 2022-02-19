@@ -96,7 +96,7 @@
         width: 150px;
         height: 30px;
         font-weight: bolder;
-        background-color: cyan;
+        background-color: greenyellow;
       }
     </style>
   </head>
@@ -104,31 +104,36 @@
     <div class="container">
       <div class="cards">
         <% if (orders.length > 0) { %> <% orders.forEach(order => { %>
-        <div class="card">
-          <img
-            class="card__image"
-            src="https://congtymoitruong.com.vn/upload/elfinder/bao-tri-he-thong-xu-ly-nuoc-thai.jpg"
-          />
-          <div class="card__content">
-            <p><strong> No of Services: <%= order.NO_OF_SERVICES %></strong></p>
-            <br />
-            <p><strong>Address: </strong> <%= order.ADDRESS %></p>
-          </div>
+        <form
+          action="/providerapi/home/assignedorders/<%=order.SID %>/<%= order.OID %>"
+          method="post"
+        >
+          <div class="card">
+            <img
+              class="card__image"
+              src="https://congtymoitruong.com.vn/upload/elfinder/bao-tri-he-thong-xu-ly-nuoc-thai.jpg"
+            />
+            <div class="card__content">
+              <p>
+                <strong> No of Services: <%= order.NO_OF_SERVICES %></strong>
+              </p>
+              <br />
+              <p><strong>Address: </strong> <%= order.ADDRESS %></p>
+            </div>
 
-          <div class="card__content2">
-            <p><strong>Notes: </strong> <%= order.NOTES %></p>
-            <p><strong>Customer Mobile No: </strong> <%= order.PHONE %></p>
-          </div>
+            <div class="card__content2">
+              <p><strong>Notes: </strong> <%= order.NOTES %></p>
+              <p><strong>Customer Mobile No: </strong> <%= order.PHONE %></p>
+            </div>
 
-          <div class="card__info">
-            <div>
-              <form action="/providerapi/home/orders" method="post">
+            <div class="card__info">
+              <div>
                 <button class="btn">COMPLETE</button>
-              </form>
+              </div>
             </div>
           </div>
-        </div>
-        <% }) %> <% } else { %> <% } %>
+          <% }) %> <% } else { %> <% } %>
+        </form>
       </div>
     </div>
   </body>
