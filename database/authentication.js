@@ -124,6 +124,69 @@ async function getCustomerToken(id)
     return (await database.execute(sql, binds, database.options)).rows;
 }
 
+async function getLoginInfoByEmailofModerator(email)
+{
+    const sql = `SELECT EMAIL, PASSWORD, MODERATOR_ID FROM MODERATOR WHERE EMAIL = :email`;
+    const binds = {
+        email : email
+    };
+    return (await database.execute(sql, binds, database.options)).rows; 
+}
+
+async function updateModeratorTokenById(id, token){
+    console.log('moderator token updated');
+    const sql = `
+        UPDATE MODERATOR SET TOKEN = :token WHERE MODERATOR_ID = :id`;
+        const binds = {
+            id : id,
+            token : token
+        }
+    return (await database.execute(sql, binds , {}));
+}
+
+async function createNewModerator(moderator) {
+    const sql = `INSERT INTO MODERATOR (MODERATOR_NAME, EMAIL, PASSWORD, PHONE_NO, PRESENT_ADDRESS, PERMANENT_ADDRESS, USER_TYPE) 
+    VALUES(:name, :email, :password, :phone, :present_address, :permanent_address, :user_type)
+    `;
+
+    const binds = {
+        name: moderator.name,
+        email: moderator.email,
+        password: moderator.password,
+        phone: moderator.phone,
+        present_address: moderator.present_address,
+        permanent_address: moderator.permanent_address,
+        user_type : moderator.type
+    };
+    await database.execute(sql, binds, {});
+    return;
+}
+
+async function getModeratorIdByEmail(email) {
+    const sql = `SELECT MODERATOR_ID FROM MODERATOR WHERE EMAIL = :email`;
+    const binds = {
+        email : email
+    };
+    return (await database.execute(sql, binds, database.options)).rows;
+}
+async function getModeratorById(id) {
+    const sql = `SELECT * FROM MODERATOR WHERE MODERATOR_ID = :id`;
+    const binds = {
+        id : id 
+    };
+    return (await database.execute(sql, binds, database.options)).rows;
+}
+
+async function updateModeratorTokenById(id, token){
+    const sql = `
+        UPDATE MODERATOR SET TOKEN = :token WHERE MODERATOR_ID = :id`;
+        const binds = {
+            id : id,
+            token : token
+        }
+    return (await database.execute(sql, binds , database.options)).rows;
+}
+
 module.exports = {
     updateCustomerTokenById,
     getCustomerIdByEmail,
@@ -136,5 +199,11 @@ module.exports = {
     getProviderIdByEmail,
     updateProviderTokenById,
     getServiceProviderByName,
-    getCustomerToken
+    getCustomerToken,
+    getLoginInfoByEmailofModerator,
+    updateModeratorTokenById,
+    createNewModerator,
+    getModeratorIdByEmail,
+    getModeratorById,
+    updateModeratorTokenById
 }

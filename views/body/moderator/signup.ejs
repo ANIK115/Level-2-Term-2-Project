@@ -1,0 +1,124 @@
+<div class="card w-50 mx-auto border-primary">
+  <form action="/moderatorapi/signup" method="post" class="card-body">
+    <!-- handle -->
+    <div class="form-group row">
+      <label for="name" class="col-4 col-form-label">Name</label>
+      <div class="col-8">
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          required
+          value="<%= (typeof form != 'undefined')? form.name : '' %>"
+        />
+      </div>
+    </div>
+    <!-- email -->
+    <div class="form-group row">
+      <label for="email" class="col-4 col-form-label">Email</label>
+      <div class="col-8">
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          required
+          value="<%= (typeof form != 'undefined')? form.email : '' %>"
+        />
+      </div>
+    </div>
+    <!-- password -->
+    <div class="form-group row">
+      <label for="password" class="col-4 col-form-label">Password</label>
+      <div class="col-8">
+        <input
+          type="password"
+          class="form-control"
+          name="password"
+          required
+          value="<%= (typeof form != 'undefined')? form.password : '' %>"
+        />
+      </div>
+    </div>
+    <!-- confirm password -->
+    <div class="form-group row">
+      <label for="password2" class="col-4 col-form-label"
+        >Confirm Password</label
+      >
+      <div class="col-8">
+        <input
+          type="password"
+          class="form-control"
+          name="password2"
+          required
+          value="<%= (typeof form != 'undefined')? form.password2 : '' %>"
+        />
+      </div>
+    </div>
+    <!-- Phone Number -->
+    <div class="form-group row">
+      <label for="phone" class="col-4 col-form-label">Phone</label>
+      <div class="col-8">
+        <input
+          type="phone"
+          class="form-control"
+          name="phone"
+          required
+          value="<%= (typeof form != 'undefined')? form.phone : '' %>"
+        />
+      </div>
+    </div>
+
+    <!--Present Address-->
+
+    <div class="form-group row">
+      <label for="present_address" class="col-4 col-form-label"
+        >Present Address</label
+      >
+      <div class="col-8">
+        <input
+          type="address"
+          class="form-control"
+          name="present_address"
+          required
+          value="<%= (typeof form != 'undefined')? form.present_address : '' %>"
+        />
+      </div>
+    </div>
+
+    <!--Permanent Address-->
+
+    <div class="form-group row">
+      <label for="permanent_address" class="col-4 col-form-label"
+        >Permanent Address</label
+      >
+      <div class="col-8">
+        <input
+          type="address"
+          class="form-control"
+          name="permanent_address"
+          required
+          value="<%= (typeof form != 'undefined')? form.permanent_address : '' %>"
+        />
+      </div>
+    </div>
+
+    <!-- error list -->
+    <% if (errors.length > 0) { %>
+    <div class="row mx-0 pb-0 alert alert-danger">
+      <ul>
+        <% for (e of errors) { %>
+        <li><%= e %></li>
+        <% } %>
+      </ul>
+    </div>
+    <% } %>
+    <!-- submit -->
+    <div class="form-group row">
+      <input
+        type="submit"
+        value="Submit"
+        class="btn btn-primary col-2 mx-auto"
+      />
+    </div>
+  </form>
+</div>

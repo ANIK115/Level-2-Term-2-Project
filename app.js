@@ -27,6 +27,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.use('/api',require('./routes/api/api'));
 app.use('/providerapi', require('./routes/service_provider/api'));
+app.use('/moderatorapi', require('./routes/moderator/api'));
 
 app.use(errorHandling.notFound);
 app.use(errorHandling.errorHandler);

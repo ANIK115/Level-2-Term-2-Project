@@ -44,7 +44,27 @@ async function loginProvider(res, userId){
     res.cookie('sessionToken', token, options);
 }
 
+async function loginModerator(res, userId){
+    // create token
+    const payload = {
+        id: userId
+    };
+    let token = jwt.sign(payload, process.env.APP_MD_TOKEN);
+    console.log(token);
+    console.log("That was moderator token in utils");
+    // put token in db
+    await db_authentication.updateModeratorTokenById(userId, token);
+    // set token in cookie
+    let options = {
+        maxAge: 90000000, //expire duration of the token in milliseconds
+        httpOnly: true
+    }
+    console.log("Moderator logged in");
+    res.cookie('sessionToken', token, options);
+}
+
 module.exports = {
     loginCustomer,
-    loginProvider
+    loginProvider,
+    loginModerator
 }

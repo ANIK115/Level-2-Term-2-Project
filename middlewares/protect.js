@@ -85,4 +85,43 @@ function protectProvider(req,res,next) {
       }
 }
 
-module.exports = { protectCustomer, protectProvider };
+function protectModerator(req, res, next) {
+  // check if user has cookie token
+  if (req.cookies.sessionToken) {
+    let token = req.cookies.sessionToken;
+    // verify token was made by server
+    jwt.verify(token, process.env.APP_MD_TOKEN, async (err, decoded) => {
+      if (err) {
+        console.log("ERROR at verifying Moderator token from protect: " + err.message);
+        next();
+      } else {
+        const decodedId = decoded.id;
+        console.log(decodedId);
+        let results = await DB_auth.getModeratorById(decodedId);
+      
+        // if no such user or token doesn't match, do nothing
+        if (results.length == 0) {
+          console.log("protect moderator: invalid cookie for customer");
+          res.status(400).send("You're not a valid user for this url!");
+        } else if (results[0].TOKEN != token) {
+          console.log("protect moderator: invalid token from customer");
+          res.status(400).send("You're not a valid user for this url!");
+        next();
+        } else {
+          // set prompt in reqest object
+          req.user = {
+            id: decodedId,
+            name: results[0].NAME,
+            email: results[0].EMAIL,
+            userType: "moderator",
+          };
+        }
+        next();
+      }
+    });
+  } else {
+    next();
+  }
+}
+
+module.exports = { protectCustomer, protectProvider, protectModerator };

@@ -1,6 +1,5 @@
 const Controller = require('./base').Controller;
 const db_moderators = require('../database/moderators');
-const model = require('../models/moderator');
 
 class ModeratorController extends Controller {
     constructor() {
@@ -12,10 +11,18 @@ class ModeratorController extends Controller {
         res.status(200).json(allModerators);
     };
 
+    home = async(req,res) => {
+        if(req.user!= null) {
+            res.render('headers/moderator_home.ejs');
+        }else {
+            res.status(400).send("Not a valid user for this url!");
+        }
+    };
 
     fetch = async (req, res, next) => {
         let id = req.params.id;
         let moderator = await db_moderators.getModeratorById(id);
+        console.log(moderator);
         //the database column names must be in block letters!!!
         const name = moderator[0].MODERATOR_NAME;
         const email = moderator[0].EMAIL;
