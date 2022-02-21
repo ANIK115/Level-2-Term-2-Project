@@ -119,6 +119,17 @@ async function getCategoryIDFromServiceID(id) {
     };
     return (await database.execute(sql, binds, database.options)).rows;
 }
+async function getAllServicesUnderOrder(id){
+    const sql = `
+    SELECT S.SERVICE_ID AS ID, S.SERVICE_NAME AS NAME , S.DESCRIPTION AS DESCRIPTION, S.COST AS COST, C.COST AS DISCOUNTED, C.ORDER_STATUS AS ORDER_STATUS
+    FROM SERVICE S JOIN INCLUDED_IN C ON (S.SERVICE_ID = C.SVC_ID)
+    WHERE C.ORDER_ID = :id
+    ORDER BY S.SERVICE_NAME`;
+    const binds = {
+        id : id
+    };
+    return (await database.execute(sql, binds, database.options)).rows;
+}
 
 module.exports = {
     getAllServicesUnderCategory,
@@ -132,5 +143,6 @@ module.exports = {
     getAllServices,
     getOrdersTakenByCustomer,
     getCategoryIDFromServiceID,
-    getOfferedServices
+    getOfferedServices,
+    getAllServicesUnderOrder
 }

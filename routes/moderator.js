@@ -3,47 +3,40 @@ const express = require('express');
 const db_services = require('../database/services');
 const db_cat = require('../database/category');
 const router = require('express-promise-router')();
+const auth = require('../middlewares/auth');
 
 const ModeratorController = require('../controllers/moderator').ModeratorController;
 let controller = new ModeratorController();
 
 
 //ROUTE: add service (get)
-router.get('/addservice', async(req, res)=>{
-    // if(req.user == null) {
-    //     const errors = [];
-    //     res.render('home.ejs', {
-    //         title : 'Add Service - Esheba',
-    //         body : ['add_service'],
-    //         user : null,
-    //         errors : errors
-    //     });
-    // } else {
-    //     res.redirect('/');
-    // }
-    let categories = await db_cat.getAllCategory();
+router.get('/', auth.mdAuth, async(req, res)=>{
+    if(req.user != null) {
+    const id = req.user.id;
+    let categories = await db_cat.getAllCategoryUnderModerator(id);
     res.render('add_service.ejs' , {categories});
+    }else {
+        res.status(400).send("You are not a valid user for this url");
+    }
 });
 
 // ROUTE : add service (post)
-router.post('/addservice', async (req, res) => {
-    if(true) {
+router.post('/', auth.mdAuth, async (req, res) => {
+    if(req.user != null) {
         let results, errors = [];
-        let cat_id;
+        let cat;
 
         results = await db_services.getServiceByName(req.body.name);
         if(results.length > 0)
         {
             errors.push('Name is already in use for a serive');
         }
-        cat = req.body.category;
+        cat = await db_services.getCategoryID(req.body.categories);
+        cat = cat[0].CATNAME;
         console.log(`${cat} is category id..............`);
-        // cat = await db_authentication.getCategoryID(cat_id);
         if(errors.length > 0) {
             res.render('add_service.ejs', {
                 title : 'Add Service - Esheba',
-                body : ['add_service'],
-                user : null,
                 errors : errors,
                 form : {
                     name : req.body.name,
@@ -63,14 +56,12 @@ router.post('/addservice', async (req, res) => {
 
             await db_services.createNewService(service);
 
-            res.redirect('/api/services/1');
+            res.redirect('/moderatorapi/home');
         }
     } else {
-        res.redirect('/api/services/1');
+        res.status(400).send("You are not a valid moderator for this url");
     }
 });
 
-router.get('/all',controller.list);
-router.get('/:id',controller.fetch);
 
 module.exports = router;

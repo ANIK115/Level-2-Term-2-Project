@@ -26,7 +26,7 @@ router.get('/carts',protect,controller.showCart);
 router.get('/:id',protect,controller.list);
 router.get('/cart/:id',protect,controller.addCart);
 router.get('/cart/offers/:id',protect, controller.addCartFromOffers);
-
+router.get('/status/:id', protect, controller.listbyorder);
 
 
 module.exports = router;

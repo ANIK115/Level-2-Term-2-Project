@@ -6,6 +6,14 @@ async function getAllCategory(){
         SELECT * FROM CATEGORY ORDER BY CATEGORY_NAME`;
     return (await database.execute(sql, {}, database.options)).rows;
 }
+async function getAllCategoryUnderModerator(id){
+    const sql = `
+        SELECT * FROM CATEGORY WHERE MODERATED_BY = :id ORDER BY CATEGORY_NAME`;
+        const binds = {
+            id : id
+        };
+        return (await database.execute(sql, binds, database.options)).rows;
+}
 async function getAllCommentsUnderCategory(id)
 {
     const sql = `SELECT R.COMMENTS AS COMMENTS, C.NAME AS CUSTOMER_NAME, R.STAR AS STAR
@@ -64,5 +72,6 @@ getAllCommentsUnderCategory,
 getCategoryName,
 getRating,
 addRating,
-totalComments
+totalComments,
+getAllCategoryUnderModerator
 }

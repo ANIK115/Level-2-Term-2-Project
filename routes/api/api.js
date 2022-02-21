@@ -28,6 +28,6 @@ router.use("/signup",require('../authentication/signup'));
 router.use("/login",require('../login'));
 router.use("/moderator",require('../moderator'));
 router.use("/services", require('../services'));
-
+router.use("/status", require('../order_status'));
 router.use("/category", require('../category'));
 module.exports = router;

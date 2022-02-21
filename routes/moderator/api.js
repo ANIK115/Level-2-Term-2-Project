@@ -21,6 +21,7 @@ router.use("/home",require('./moderatorHome'));
 router.use("/signup",require('./moderator_reg'));
 router.use("/login", require('./moderator_login'));
 router.use("/logout", require('./moderator_logout'));
+router.use("/addservice", require('../moderator'));
 // router.use("/home", require("./provider"));
 // router.use("/logout", require("./provider_logout"));
 

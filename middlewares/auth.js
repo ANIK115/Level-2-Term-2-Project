@@ -96,7 +96,7 @@ function mdAuth(req, res, next) {
       process.env.APP_MD_TOKEN,
       async (err, decoded) => {
         if (err) {
-          // console.log("ERROR at verifying Provider token FROM AUTH: " + err.message);
+          console.log("ERROR at verifying MODERATOR token FROM AUTH: " + err.message);
           next();
         } else {
           const decodedId = decoded.id;
@@ -115,7 +115,7 @@ function mdAuth(req, res, next) {
             // set prompt in reqest object
             req.user = {
               id: decodedId,
-              name: results[0].NAME,
+              name: results[0].MODERATOR_NAME,
               email: results[0].EMAIL,
               userType: "moderator"
             };

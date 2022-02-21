@@ -30,6 +30,16 @@ class ServiceController extends Controller {
         }
     }
 
+    listbyorder = async(req, res) => {
+        if(req.user !== null) {
+            let order_id = req.params.id;
+            let services = await db_services.getAllServicesUnderOrder(order_id);
+            res.render('body/order_cards.ejs', {services, order_id});
+            }else {
+                res.status(400).send("You're not a valid user for this url!");
+            }
+    };
+
     addCart = async (req,res) => {
         if(req.user !== null) {
             console.log("add cart");
