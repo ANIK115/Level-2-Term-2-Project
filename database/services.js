@@ -133,10 +133,9 @@ async function getAllServicesUnderOrder(id){
 }
 async function createNewOffer(offer) {
     const sql = `INSERT INTO OFFERS (OFFER_ID, SERVICE_ID, OFFER_NAME, DISCOUNT, START_DATE, END_DATE) 
-    VALUES(:oid, :sid, :offer_name, :discount, TO_DATE(:start_date, 'YYYY-MM-DD'), TO_DATE(:end_date, 'YYYY-MM-DD'))
+    VALUES(OFFER_SEQ.NEXTVAL, :sid, :offer_name, :discount, TO_DATE(:start_date, 'YYYY-MM-DD'), TO_DATE(:end_date, 'YYYY-MM-DD'))
     `;
     const binds = {
-        oid : offer.oid,
         sid : offer.sid,
         offer_name : offer.offer_name,
         discount : offer.discount,

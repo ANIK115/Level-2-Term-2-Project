@@ -72,7 +72,6 @@ class ModeratorController extends Controller {
                     title : 'Add Offer - Esheba',
                     errors : errors,
                     form : {
-                        oid : req.oid,
                         service_name : req.service_name,
                         offer_name : req.offer_name,
                         discount : req.discount,
@@ -86,7 +85,6 @@ class ModeratorController extends Controller {
                 console.log(req.body);
                 console.log(service_id);
                 let offer = {
-                    oid : req.body.oid,
                     sid : service_id[0].SERVICE_ID,
                     offer_name : req.body.name,
                     discount : req.body.discount,
