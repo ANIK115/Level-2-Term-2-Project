@@ -52,7 +52,17 @@ class ProviderController extends Controller {
             const oid = req.params.oid;
             console.log(`${pid}, ${sid}, ${oid}`);
             await db_provider.completeOrder(pid, sid, oid);
+            await db_provider.updateOrderStatus(oid);
             res.redirect('/providerapi/home/orders'); 
+        }
+    }
+    profile = async(req, res) => {
+        if(req.user != null) {
+            const pid = req.user.id;
+            let provider = await db_provider.getInfoSP(pid);
+            res.render("body/service_provider/provider_profile.ejs", {provider:provider[0]});
+        } else {
+           res.status(400).send("You are not a valid service provider for this url");
         }
     }
 };

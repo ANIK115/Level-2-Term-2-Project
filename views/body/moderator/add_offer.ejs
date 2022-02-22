@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Offer</title>
+  </head>
+  <body>
+    <div class="create-service content">
+      <form action="/moderatorapi/home/addoffers" method="POST">
+        <label for="offer name">Offer Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          value="<%= (typeof form != 'undefined')? form.offer_name : '' %>"
+        />
+        <label for="offer id">Offer ID:</label>
+        <input
+          type="text"
+          id="oid"
+          name="oid"
+          required
+          value="<%= (typeof form != 'undefined')? form.oid : '' %>"
+        />
+        <br />
+        <label for="services">Select services</label>
+        <select name="services">
+          <% var options = [];console.log(services) %> <% for(var i = 0; i <
+          services.length; i++) { %>
+          <option value="<%= services[i].SERVICE_NAME %>">
+            <%= services[i].SERVICE_NAME %>
+          </option>
+          <% } %>
+        </select>
+        <br />
+        <label for="discount">Percentage of Discount:</label>
+        <input
+          type="number"
+          id="discount"
+          name="discount"
+          min="5"
+          max="30"
+          required
+          value="<%= (typeof form != 'undefined')? form.discount : '' %>"
+        />
+        <br />
+        <label for="start_date">Start Date:</label>
+        <input
+          type="date"
+          id="start_date"
+          name="start_date"
+          required
+          value="<%= (typeof form != 'undefined')? form.start_date : '' %>"
+        />
+        <br />
+        <label for="end_date">End Date:</label>
+        <input
+          type="date"
+          id="end_date"
+          name="end_date"
+          required
+          value="<%= (typeof form != 'undefined')? form.end_date : '' %>"
+        />
+        <br />
+        <button>Submit</button>
+      </form>
+    </div>
+  </body>
+</html>

@@ -7,5 +7,7 @@ let controller = new ModeratorController();
 // libraries
 
 router.get('/', auth.mdAuth, controller.home);
-
+router.get('/addoffers', auth.mdAuth, controller.offer);
+router.post('/addoffers', auth.mdAuth, controller.add_offer);
+router.get('/showoffers', auth.mdAuth, controller.showOffers);
 module.exports = router;

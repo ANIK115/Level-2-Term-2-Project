@@ -134,7 +134,11 @@ class ServiceController extends Controller {
                 console.log("Entered render order");
                 console.log(req.user.userType);
                 console.log(totalPrice);
+                if(services.length >0) {
                 res.render("body/orders.ejs", {services, totalPrice, saved});
+                }else {
+                    res.send("Your cart is empty! Add something to Cart first!");
+                }
             }else {
                 res.status(400).send("You're not a valid user for this url!");
             }

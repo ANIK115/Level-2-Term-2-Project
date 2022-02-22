@@ -63,7 +63,35 @@ async function getCategoryName(id)
      const sql =`SELECT COUNT(*) AS TOTAL FROM RATINGS`;
      return (await database.execute(sql, {}, database.options)).rows;
  }
+ //newly added
+ async function getAllServicesUnderModerator(id)
+ {
+     const sql = `SELECT SERVICE_NAME FROM CATEGORY JOIN SERVICE ON (CATEGORY.CATEGORY_ID=SERVICE.CATEGORY_ID)  WHERE MODERATED_BY = :id
+     MINUS 
+     SELECT SERVICE_NAME FROM SERVICE JOIN OFFERS ON (SERVICE.SERVICE_ID = OFFERS.SERVICE_ID)`;
+     console.log('hello',id);
+     const binds = {
+        id : id
+    };
+    return (await database.execute(sql, binds, database.options)).rows;
+ }
 
+ //newly added
+ async function getOfferByName(name) {
+    const sql = `SELECT OFFER_NAME FROM OFFERS WHERE OFFER_NAME = :name`;
+    const binds = {
+        name : name
+    }
+    return (await database.execute(sql, binds, database.options)).rows;
+}
+
+async function getAllCategoryBySearch(key) {
+    const sql = `SELECT * FROM CATEGORY WHERE UPPER(CATEGORY_NAME) LIKE UPPER('%:key%') ORDER BY CATEGORY_NAME`;
+    const binds = {
+        key : key
+    }
+    return (await database.execute(sql, binds, database.options)).rows;
+}
 
 
 module.exports = {
@@ -73,5 +101,8 @@ getCategoryName,
 getRating,
 addRating,
 totalComments,
-getAllCategoryUnderModerator
+getAllCategoryUnderModerator,
+getAllServicesUnderModerator,
+getOfferByName,
+getAllCategoryBySearch
 }

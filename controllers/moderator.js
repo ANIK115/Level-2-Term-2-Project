@@ -1,5 +1,7 @@
 const Controller = require('./base').Controller;
 const db_moderators = require('../database/moderators');
+const db_cat = require('../database/category');
+const db_services = require('../database/services');
 
 class ModeratorController extends Controller {
     constructor() {
@@ -35,6 +37,70 @@ class ModeratorController extends Controller {
             phone,
             hire_date 
         })
+    };
+
+    //newly added
+    offer = async(req, res) => {
+        if(req.user != null) {
+            let id = req.user.id;
+            console.log('ar bhallagena');
+            let services = await db_cat.getAllServicesUnderModerator(id);
+            console.log(services);
+            console.log('naaaa');
+            res.render('body/moderator/add_offer.ejs' , {services});
+            }else {
+                res.status(400).send("You are not a valid user for this url");
+            }
+    }
+
+    showOffers = async (req,res) => {
+        if(req.user !==null) {
+            let services = await db_services.getOfferedServices();
+            res.render('body/moderator/offers.ejs', {services}); 
+        }else {
+            res.status(400).send("You're not a valid user for this url!");
+        }
+    }
+    //newly added
+    add_offer = async(req, res, next) => {
+        if(req.user != null) {
+            let results, errors = [];
+            let cat;
+            console.log("in add offer in moderator controller");
+            if(errors.length > 0) {
+                res.render('body/moderator/add_offer.ejs', {
+                    title : 'Add Offer - Esheba',
+                    errors : errors,
+                    form : {
+                        oid : req.oid,
+                        service_name : req.service_name,
+                        offer_name : req.offer_name,
+                        discount : req.discount,
+                        start_date : req.start_date,
+                        end_date : req.end_date
+                    } 
+                });
+            } 
+            else {
+                let service_id = await db_services.getServiceID(req.body.services);
+                console.log(req.body);
+                console.log(service_id);
+                let offer = {
+                    oid : req.body.oid,
+                    sid : service_id[0].SERVICE_ID,
+                    offer_name : req.body.name,
+                    discount : req.body.discount,
+                    start_date : req.body.start_date,
+                    end_date : req.body.end_date
+                }
+                
+                await db_services.createNewOffer(offer);
+    
+                res.redirect('/moderatorapi/home');
+            }
+        } else {
+            res.status(400).send("You are not a valid moderator for this url");
+        }
     };
 };
 

@@ -130,6 +130,22 @@ async function getAllServicesUnderOrder(id){
     };
     return (await database.execute(sql, binds, database.options)).rows;
 }
+async function createNewOffer(offer) {
+    const sql = `INSERT INTO OFFERS (OFFER_ID, SERVICE_ID, OFFER_NAME, DISCOUNT, START_DATE, END_DATE) 
+    VALUES(:oid, :sid, :offer_name, :discount, TO_DATE(:start_date, 'YYYY-MM-DD'), TO_DATE(:end_date, 'YYYY-MM-DD'))
+    `;
+    const binds = {
+        oid : offer.oid,
+        sid : offer.sid,
+        offer_name : offer.offer_name,
+        discount : offer.discount,
+        start_date : offer.start_date,
+        end_date : offer.end_date
+    };
+    console.log('created new offer!');
+    await database.execute(sql, binds, {});
+    return;
+}
 
 module.exports = {
     getAllServicesUnderCategory,
@@ -144,5 +160,6 @@ module.exports = {
     getOrdersTakenByCustomer,
     getCategoryIDFromServiceID,
     getOfferedServices,
-    getAllServicesUnderOrder
+    getAllServicesUnderOrder,
+    createNewOffer
 }
