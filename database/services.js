@@ -2,7 +2,7 @@ const database = require('./database');
 
 async function getAllServicesUnderCategory(id){
     const sql = `
-    SELECT S.SERVICE_ID AS ID, S.SERVICE_NAME AS NAME , S.DESCRIPTION AS DESCRIPTION, S.COST AS COST 
+    SELECT S.SERVICE_ID AS ID, S.SERVICE_NAME AS NAME , S.DESCRIPTION AS DESCRIPTION, S.COST AS COST, S.IMG AS IMG 
     FROM SERVICE S JOIN CATEGORY C ON (S.CATEGORY_ID = C.CATEGORY_ID)
     WHERE S.CATEGORY_ID = :id
     ORDER BY S.SERVICE_NAME`;
@@ -13,7 +13,7 @@ async function getAllServicesUnderCategory(id){
 }
 
 async function getOfferedServices() {
-    const sql = `SELECT S.SERVICE_ID AS ID, S.SERVICE_NAME AS NAME , S.DESCRIPTION AS DESCRIPTION, S.COST AS COST, (S.COST-S.COST*O.DISCOUNT/100) AS DISCOUNTED, O.END_DATE AS OFFER_ENDS , O.OFFER_NAME AS OFFER 
+    const sql = `SELECT S.SERVICE_ID AS ID, S.SERVICE_NAME AS NAME , S.IMG AS IMG, S.DESCRIPTION AS DESCRIPTION, S.COST AS COST, (S.COST-S.COST*O.DISCOUNT/100) AS DISCOUNTED, O.END_DATE AS OFFER_ENDS , O.OFFER_NAME AS OFFER 
     FROM SERVICE S LEFT JOIN OFFERS O ON (S.SERVICE_ID = O.SERVICE_ID)
     WHERE O.END_DATE > SYSDATE
     ORDER BY S.SERVICE_NAME`;
@@ -58,14 +58,15 @@ async function getCategoryID(name) {
 }
 
 async function createNewService(service) {
-    const sql = `INSERT INTO SERVICE (SERVICE_NAME, DESCRIPTION, COST, CATEGORY_ID) 
-    VALUES(:name, :description, :cost, :category)
+    const sql = `INSERT INTO SERVICE (SERVICE_NAME, DESCRIPTION, COST, CATEGORY_ID, IMG) 
+    VALUES(:name, :description, :cost, :category, :img)
     `;
     const binds = {
         name : service.name,
         description : service.description,
         cost : service.cost,
-        category : service.category
+        category : service.category,
+        img : service.img 
     };
     console.log('created new service!');
     await database.execute(sql, binds, {});
@@ -121,7 +122,7 @@ async function getCategoryIDFromServiceID(id) {
 }
 async function getAllServicesUnderOrder(id){
     const sql = `
-    SELECT S.SERVICE_ID AS ID, S.SERVICE_NAME AS NAME , S.DESCRIPTION AS DESCRIPTION, S.COST AS COST, C.COST AS DISCOUNTED, C.ORDER_STATUS AS ORDER_STATUS
+    SELECT S.SERVICE_ID AS ID, S.SERVICE_NAME AS NAME , S.DESCRIPTION AS DESCRIPTION, S.COST AS COST, S.IMG AS IMG C.COST AS DISCOUNTED, C.ORDER_STATUS AS ORDER_STATUS
     FROM SERVICE S JOIN INCLUDED_IN C ON (S.SERVICE_ID = C.SVC_ID)
     WHERE C.ORDER_ID = :id
     ORDER BY S.SERVICE_NAME`;

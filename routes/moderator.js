@@ -42,16 +42,19 @@ router.post('/', auth.mdAuth, async (req, res) => {
                     name : req.body.name,
                     category : cat,
                     description : req.body.description,
-                    cost : req.body.cost
+                    cost : req.body.cost,
+                    img : req.body.img 
                 } 
             });
         } 
         else {
+            console.log(req.body.img);
             let service = {
                 name : req.body.name,
                 category : cat,
                 description : req.body.description,
-                cost : req.body.cost
+                cost : req.body.cost,
+                img : req.body.img 
             }
 
             await db_services.createNewService(service);
