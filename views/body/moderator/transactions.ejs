@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("../../headers/moderator_home.ejs") %>
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style type="text/css">
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: white;
+        font-family: sans-serif;
+      }
+      .table-container {
+        padding: 0 10%;
+        margin: 40px auto 0;
+      }
+      .heading {
+        font-size: 40px;
+        text-align: center;
+        color: black;
+        margin-bottom: 40px;
+      }
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .table thead {
+        background-color: rgb(93, 93, 214);
+      }
+      .table thead tr th {
+        font-size: 14px;
+        font-weight: medium;
+        letter-spacing: 0.35px;
+        color: white;
+        opacity: 1;
+        padding: 12px;
+        vertical-align: top;
+        border: 2px solid black;
+      }
+      .table tbody tr td {
+        font-size: 14px;
+        letter-spacing: 0.35px;
+        font-weight: normal;
+        color: #f1f1f1;
+        background-color: #3c3f44;
+        padding: 8px;
+        text-align: center;
+        border: 2px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="table-container">
+      <h1 class="heading">ESheba Transactions</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Credit</th>
+            <th>Debit</th>
+            <th>Current Amount</th>
+            <th>Transaction Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% if (transactions.length > 0) {
+          %><%transactions.forEach(transaction=> { %>
+          <tr>
+            <td data-label="Credit"><%= transaction.CREDIT %></td>
+            <td data-label="Debit"><%= transaction.DEBIT %></td>
+            <td data-label="Current Amount">
+              <%= transaction.CURRENT_AMOUNT %>
+            </td>
+            <td data-label="Transaction Date"><%= transaction.TRANS_DATE %></td>
+          </tr>
+          <% }) %> <% } else { %> <% } %>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

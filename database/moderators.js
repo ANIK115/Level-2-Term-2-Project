@@ -13,8 +13,12 @@ async function getModeratorById(id) {
     };
     return (await database.execute(sql,binds, database.options)).rows;
 }
-
+async function getTransactions() {
+    const sql = `SELECT * FROM ACCOUNT`;
+    return (await database.execute(sql,{}, database.options)).rows;
+}
 module.exports = {
     getAllModerators,
-    getModeratorById
+    getModeratorById,
+    getTransactions
 }

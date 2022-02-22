@@ -21,6 +21,15 @@ class ModeratorController extends Controller {
         }
     };
 
+    transaction = async(req,res) => {
+        if(req.user!= null) {
+            const transactions = await db_moderators.getTransactions();
+            res.render('body/moderator/transactions.ejs', {transactions});
+        }else {
+            res.status(400).send("Not a valid user for this url!");
+        }
+    }
+
     fetch = async (req, res, next) => {
         let id = req.params.id;
         let moderator = await db_moderators.getModeratorById(id);
