@@ -18,9 +18,21 @@ class CategoryController extends Controller {
 
     listBySearch = async (req,res)=> {
         if(req.user != null) {
-            let key ;
-            let categories = await db_category.getAllCategoryBySearch(key);
-            res.render('body/cards.ejs', {categories});
+            let key = req.body.key ;
+            key = "%"+key+"%";
+            console.log(key);
+            let services = await db_services.getAllServicesBySearch(key);
+            res.render('body/service_cards.ejs', {services});
+        }else {
+            res.status(400).send("You're not a valid user for this url!");
+        }
+    }
+    listByPriceRange = async (req,res)=> {
+        if(req.user != null) {
+            let lower = req.body.lower ;
+            let upper = req.body.upper;
+            let services = await db_services.getAllServicesByPrice(lower, upper);
+            res.render('body/service_cards.ejs', {services});
         }else {
             res.status(400).send("You're not a valid user for this url!");
         }

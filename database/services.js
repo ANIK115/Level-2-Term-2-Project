@@ -146,7 +146,24 @@ async function createNewOffer(offer) {
     await database.execute(sql, binds, {});
     return;
 }
+async function getAllServicesBySearch(key) {
+    const sql = `SELECT  S.SERVICE_ID AS ID, S.SERVICE_NAME AS NAME , S.DESCRIPTION AS DESCRIPTION, S.COST AS COST, S.IMG AS IMG 
+    FROM SERVICE S WHERE UPPER(SERVICE_NAME) LIKE UPPER(:key) ORDER BY SERVICE_NAME`;
+    const binds = {
+        key : key
+    }
+    return (await database.execute(sql, binds, database.options)).rows;
+}
 
+async function getAllServicesByPrice(lower, upper) {
+    const sql = `SELECT  S.SERVICE_ID AS ID, S.SERVICE_NAME AS NAME , S.DESCRIPTION AS DESCRIPTION, S.COST AS COST, S.IMG AS IMG 
+    FROM SERVICE S WHERE COST BETWEEN :lower AND :upper ORDER BY COST`;
+    const binds = {
+        lower : lower,
+        upper : upper 
+    }
+    return (await database.execute(sql, binds, database.options)).rows;
+}
 module.exports = {
     getAllServicesUnderCategory,
     getAllCommentsUnderCategory,
@@ -161,5 +178,7 @@ module.exports = {
     getCategoryIDFromServiceID,
     getOfferedServices,
     getAllServicesUnderOrder,
-    createNewOffer
+    createNewOffer,
+    getAllServicesBySearch,
+    getAllServicesByPrice
 }

@@ -34,7 +34,7 @@
       .card__image {
         width: 100%;
         height: 150px;
-        object-fit: cover;
+        object-fit: fill;
         display: block;
         border-top: 2px solid #ca2828;
         border-right: 2px solid #c73636;
@@ -95,24 +95,58 @@
         text-decoration: underline;
       }
       .searchbar {
-        width: 100%;
-        align-items: center;
-        color: blanchedalmond;
-        padding-top: 10px;
+        width: 50%;
+        padding-top: 20px;
         padding-bottom: 10px;
-        padding-left: 10px;
-        padding-right: 30px;
+      }
+      .searchbar2 {
+        width: 50%;
+        padding-top: 20px;
+        padding-bottom: 10px;
+      }
+      .searchtext {
+        width: 300px;
+        height: 30px;
+      }
+      .lowerbound {
+        width: 150px;
+      }
+      .upperbound {
+        width: 150px;
       }
     </style>
   </head>
   <body>
+    <form action="/api/category/searchkey" method="post">
+      <div class="searchbar">
+        <input
+          type="text"
+          name="key"
+          class="searchtext"
+          placeholder="Search Service By Name"
+        />
+        <button>Search By Name</button>
+      </div>
+    </form>
+    <form action="/api/category/searchbyprice" method="post">
+      <div class="searchbar2">
+        <input
+          type="number"
+          name="lower"
+          min="100"
+          class="lowerbound"
+          placeholder="Lower Range"
+        />
+        <input
+          type="number"
+          name="upper"
+          class="upperbound"
+          placeholder="Upper Range"
+        />
+        <button>Search By Price Range</button>
+      </div>
+    </form>
     <div class="container">
-      <form action="#">
-        <div class="searchbar">
-          <input type="text" name="search" width="70%" />
-          <button>Search</button>
-        </div>
-      </form>
       <div class="cards">
         <% if (categories.length > 0) { %> <% categories.forEach(cat => { %>
         <div class="card">
