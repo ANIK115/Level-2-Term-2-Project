@@ -6,7 +6,7 @@ let controller = new ModeratorController();
 
 // libraries
 
-router.get('/', auth.mdAuth, controller.home);
+router.get('/', auth.mdAuth, controller.transaction);
 router.get('/transactions', auth.mdAuth, controller.transaction);
 router.get('/addoffers', auth.mdAuth, controller.offer);
 router.post('/addoffers', auth.mdAuth, controller.add_offer);

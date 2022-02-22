@@ -30,10 +30,13 @@ class ProviderController extends Controller {
             let count = await db_provider.countAssignedOrders(pid);
             count = count[0].TOTAL;
             console.log(`total: ${count}`);
-            if(count < 3) {
+            if(count < 2) {
                 await db_provider.assignProvider(pid,sid,oid);
+                res.redirect('/providerapi/home/orders');
+            }else {
+                res.status(400).send("First complete your assigned services!");
             }
-            res.redirect('/providerapi/home/orders');    
+                
         }
     }
 

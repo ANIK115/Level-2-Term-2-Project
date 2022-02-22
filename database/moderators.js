@@ -14,7 +14,7 @@ async function getModeratorById(id) {
     return (await database.execute(sql,binds, database.options)).rows;
 }
 async function getTransactions() {
-    const sql = `SELECT * FROM ACCOUNT`;
+    const sql = `SELECT * FROM ACCOUNT ORDER BY TRANS_DATE DESC`;
     return (await database.execute(sql,{}, database.options)).rows;
 }
 module.exports = {

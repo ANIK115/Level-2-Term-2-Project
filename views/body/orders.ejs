@@ -6,28 +6,117 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style type="text/css">
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: rgb(7, 193, 250);
+        font-family: sans-serif;
+      }
+      .table-container {
+        padding: 0 10%;
+        margin: 40px auto 0;
+      }
+      .heading {
+        font-size: 40px;
+        text-align: center;
+        color: black;
+        margin-bottom: 40px;
+      }
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .table thead {
+        background-color: rgb(93, 93, 214);
+      }
+      .table thead tr th {
+        font-size: 14px;
+        font-weight: medium;
+        letter-spacing: 0.35px;
+        color: white;
+        opacity: 1;
+        padding: 12px;
+        vertical-align: top;
+        border: 2px solid black;
+      }
+      .table tbody tr td {
+        font-size: 14px;
+        letter-spacing: 0.35px;
+        font-weight: normal;
+        color: #f1f1f1;
+        background-color: #3c3f44;
+        padding: 8px;
+        text-align: center;
+        border: 2px solid black;
+      }
+
+      .order {
+        margin-left: 120px;
+        margin-top: 50px;
+        width: 80%;
+        font-size: 18px;
+        border-radius: 10px;
+        border: 1px solid rgba (255, 255, 255, 0.3);
+        color: black;
+        padding-left: 5px;
+        padding-top: 10px;
+        padding-bottom: 20px;
+      }
+      label {
+        font-family: sans-serif;
+        font-size: 18px;
+        font-style: italic;
+      }
+      button {
+        width: 150px;
+        height: 35px;
+        background-color: black;
+        color: white;
+      }
+    </style>
   </head>
   <body>
-    <div class="container">
-      <% if (services.length > 0) { %> <% services.forEach(service => { %>
-      <p><strong>Service Name</strong>: <%= service.NAME %></p>
-      <br />
-      <p><strong>Price</strong>: <%= service.PRICE %></p>
-      <br />
-      <p><strong>Quantity </strong><%= service.QUANTITY %></p>
-      <br />
-      <p>
-        <strong>Sub Total After Discounts: </strong> <%= service.SUB_TOTAL %>
-      </p>
-      <br />
-      <% }) %> <% } else { %> <% } %>
+    <div class="container-one">
+      <div class="table-container">
+        <h1 class="heading">You Are Going To Order These Services</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Service Name</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Sub Total After Discount</th>
+            </tr>
+          </thead>
+  
+          <tbody>
+            <% if (services.length > 0) { %> <% services.forEach(service => { %>
+            <tr>
+              <td data-label="Service Name"><%= service.NAME %></td>
+              <td data-label="Price"><%= service.PRICE %></td>
+              <td data-label="Quantity">
+                <%= service.QUANTITY %>
+              </td>
+              <td data-label="Sub Total After Discount"><%= service.SUB_TOTAL %></td>
+            </tr>
+            <% }) %> <% } else { %> <% } %>
+          </tbody>
+        </table>
+      </div>
+     
     </div>
+    <div class="container">
     <div class="order">
       <form action="/api/services/order" method="post">
         <br />
         <h3>Total Price: <%= totalPrice %></h3>
         <br />
         <h3>You saved: <%= saved %></h3>
+        <br><br>
         <textarea
           name="order_notes"
           id=""
@@ -76,6 +165,7 @@
         <br>
         <br>
       </form>
+    </div>
     </div>
   </body>
   <%- include("../footers/footer.ejs") %>

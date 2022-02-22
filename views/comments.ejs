@@ -6,17 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Customer Comments</title>
+    <link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet"
+  />
     <style>
+      body {
+        margin-left: 10px;
+        background-color: cornflowerblue;
+      }
+      h2 {
+        text-align: center;
+      }
       .cat__image {
         width: 500px;
         height: 250px;
-        object-fit: cover;
+        object-fit: fill;
         display: block;
       }
       .insert-comment {
+        margin-left: 80px;
         padding-top: 10px;
         padding-right: 5px;
-        padding-bottom: 10px;
+        padding-bottom: 20px;
       }
       .star {
         padding-left: 10px;
@@ -24,24 +36,109 @@
         padding-right: 10px;
         padding-bottom: 10px;
       }
+
+    
+      .cards {
+        margin: 0 auto;
+        max-width: 1500px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+        grid-auto-rows: auto;
+        gap: 40px;
+        font-family: sans-serif;
+        padding-top: 30px;
+        padding-bottom: 30px;
+      }
+
+      .cards * {
+        box-sizing: border-box;
+        
+      }
+
+      .card__content {
+        background-color: blue;
+        color: black;
+        line-height: 1.5;
+        font-size: 0.9em;
+        padding: 15px;
+        background: #fafafa;
+        border-top: 2px solid #333333 ;
+        border-right: 2px solid #333333;
+        border-left: 2px solid #333333;
+      }
+      .card__content2 {
+        height: 100px;
+        line-height: 1.5;
+        font-size: 0.9em;
+        padding: 15px;
+        background: #fafafa;
+        border-right: 2px solid #333333;
+        border-left: 2px solid #333333;
+      }
+
+      .card__content p {
+        margin-top: 0;
+      }
+
+      .card__content2 p {
+        margin-bottom: 0;
+      }
+
+      .card__info {
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #555555;
+        background: #eeeeee;
+        font-size: 0.8em;
+        border-bottom: 2px solid #333333;
+        border-right: 2px solid #333333;
+        border-left: 2px solid #333333;
+      }
+
+      .card__info i {
+        font-size: 0.9em;
+        margin-right: 8px;
+      }
+
+      .card__link {
+        color: #e73414;
+        text-decoration: none;
+      }
+
+      .card__link:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
     <div class="comment-section">
-      <img class="cat__image" src="<%= cat_img %>" alt="" />
-      <h3>Customer Feedbacks about <%=cat_name %></h3>
+      
+      <h2>Customer Feedbacks about <%=cat_name %></h2>
       <br>
       <h3>Average Ratings: <%= rating%></h3>
       <br>
-      <% if (comments.length > 0) { %> <% comments.forEach(comment => { %>
-      <h3 class="customer"><%= comment.CUSTOMER_NAME %></h3>
-      <p class="feedback">
-        <strong>Feedback: </strong> <%= comment.COMMENTS %>
-      </p>
-      <p class="ratings"><strong>Rating: </strong> <%= comment.STAR %></p>
-      <br>
-      <% }) %> <% } else { %> <% } %>
-    </div>
+      <div class="cards">
+        <% if (comments.length > 0) { %> <% comments.forEach(comment => { %>
+        <div class="card">
+          <div class="card__content">
+            <p><strong><%= comment.CUSTOMER_NAME %></strong></p>
+          </div>
+          <div class="card__content2">
+            <p><strong>Feedback: </strong> <%= comment.COMMENTS %></p>
+          </div>
+          <div class="card__content2">
+            <p><strong>Rating: </strong> <%= comment.STAR %></p>
+          </div>
+
+          <div class="card__info">
+            <div><i class="material-icons">thumb_up</i><%= comment.STAR %></div>
+          </div>
+        </div>
+        <% }) %> <% } else { %> <% } %>
+      </div>
+      
     <div class="insert-comment">
       <p><h3>Give Rating and Feedback</h3></p>
       <br />
