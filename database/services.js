@@ -164,6 +164,13 @@ async function getAllServicesByPrice(lower, upper) {
     }
     return (await database.execute(sql, binds, database.options)).rows;
 }
+async function getServiceImage(sid) {
+    const sql = `SELECT IMG FROM SERVICE WHERE SERVICE_ID = :sid`;
+    const binds = {
+        sid : sid 
+    };
+    return (await database.execute(sql, binds, database.options)).rows;
+}
 module.exports = {
     getAllServicesUnderCategory,
     getAllCommentsUnderCategory,
@@ -180,5 +187,6 @@ module.exports = {
     getAllServicesUnderOrder,
     createNewOffer,
     getAllServicesBySearch,
-    getAllServicesByPrice
+    getAllServicesByPrice,
+    getServiceImage
 }

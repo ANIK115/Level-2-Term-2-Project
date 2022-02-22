@@ -45,6 +45,8 @@ class ServiceController extends Controller {
             console.log("add cart");
             let sid = req.params.id;
             let cat_id = await db_services.getCategoryIDFromServiceID(sid);
+            let img = await db_services.getServiceImage(sid);
+            img = img[0].IMG;
             cat_id = cat_id[0].CATEGORY_ID;
             let cid = req.user.id;
             console.log(`${cid} in add cart`);
@@ -52,7 +54,7 @@ class ServiceController extends Controller {
             count = count[0].COUNT;
             if(count == 0)
             {
-                await db_cart.addToCart(cid, sid, 1);
+                await db_cart.addToCart(cid, sid, 1, img);
                 console.log(`${cid} added this service`);
             }else {
                 console.log("Already added!......");

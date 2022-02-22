@@ -1,16 +1,17 @@
 const database = require('./database');
 
-async function addToCart(cid, sid, quantity)
+async function addToCart(cid, sid, quantity, img)
 {
     const sql = `
         BEGIN
-            CREATE_CART(:cid, :sid, :quantity);
+            CREATE_CART(:cid, :sid, :quantity, :img);
         END;
     `;
     const binds = {
         cid : cid,
         sid : sid,
-        quantity : quantity
+        quantity : quantity,
+        img : img
     };
     await database.execute(sql, binds, {});
     return;
@@ -26,7 +27,7 @@ async function getCartList(cid, sid)
 }
 async function getAllCart(cid)
 {
-    const sql = `SELECT S.SERVICE_NAME AS NAME, S.COST AS PRICE, C.PRICE AS DISCOUNTED_PRICE, C.QUANTITY AS QUANTITY, C.S_ID AS ID, (C.PRICE*C.QUANTITY) AS SUB_TOTAL
+    const sql = `SELECT S.SERVICE_NAME AS NAME, S.COST AS PRICE, C.PRICE AS DISCOUNTED_PRICE, C.QUANTITY AS QUANTITY, C.S_ID AS ID, (C.PRICE*C.QUANTITY) AS SUB_TOTAL, C.IMG AS IMG
     FROM CART C JOIN SERVICE S ON (C.S_ID = S.SERVICE_ID)
     WHERE C.C_ID = :cid`;
     const binds = {
