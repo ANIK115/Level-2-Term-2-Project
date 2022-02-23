@@ -19,6 +19,8 @@ class ProviderController extends Controller {
             const pid = req.user.id;
             let orders = await db_provider.availableOrders(pid);
             res.render('body/service_provider/available_orders.ejs', {orders});
+        }else {
+            res.status(400).send("You're not a valid user for this url!");
         }
     }
 
@@ -37,6 +39,8 @@ class ProviderController extends Controller {
                 res.status(400).send("First complete your assigned services!");
             }
                 
+        }else {
+            res.status(400).send("You're not a valid user for this url!");
         }
     }
 
@@ -45,6 +49,8 @@ class ProviderController extends Controller {
             const pid = req.user.id;
             let orders = await db_provider.assignedOrders(pid);
             res.render('body/service_provider/assigned_orders.ejs', {orders});
+        }else {
+            res.status(400).send("You're not a valid user for this url!");
         }
     }
 
@@ -57,6 +63,8 @@ class ProviderController extends Controller {
             await db_provider.completeOrder(pid, sid, oid);
             await db_provider.updateOrderStatus(oid);
             res.redirect('/providerapi/home/orders'); 
+        }else {
+            res.status(400).send("You're not a valid user for this url!");
         }
     }
     profile = async(req, res) => {
