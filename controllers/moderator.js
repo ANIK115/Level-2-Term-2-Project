@@ -62,6 +62,16 @@ class ModeratorController extends Controller {
             }
     }
 
+    showServices = async (req,res) => {
+        if(req.user !==null) {
+            const id = req.user.id;
+            let services = await db_moderators.getModeratedServices(id);
+            res.render('body/moderator/show_services.ejs', {services}); 
+        }else {
+            res.status(400).send("You're not a valid user for this url!");
+        }
+    }
+
     showOffers = async (req,res) => {
         if(req.user !==null) {
             let services = await db_services.getOfferedServices();

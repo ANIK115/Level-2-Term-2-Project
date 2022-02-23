@@ -11,4 +11,5 @@ router.get('/transactions', auth.mdAuth, controller.transaction);
 router.get('/addoffers', auth.mdAuth, controller.offer);
 router.post('/addoffers', auth.mdAuth, controller.add_offer);
 router.get('/showoffers', auth.mdAuth, controller.showOffers);
+router.get('/showservices', auth.mdAuth, controller.showServices);
 module.exports = router;
