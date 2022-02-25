@@ -23,6 +23,17 @@
         padding-top: 30px;
         padding-bottom: 30px;
       }
+      .forms {
+        margin-left: 25px auto;
+        max-width: 1500px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+        grid-auto-rows: auto;
+        gap: 40px;
+        font-family: sans-serif;
+        padding-top: 30px;
+        padding-bottom: 30px;
+      }
 
       .cards * {
         box-sizing: border-box;
@@ -102,10 +113,9 @@
   </head>
   <body>
     <div class="container">
-      
       <div class="cards">
         <% if (orders.length > 0) { %> <% orders.forEach(order => { %>
-          <form action="/providerapi/home/orders/<%=order.SID %>/ <%= order.OID %>" method="post">
+
         <div class="card">
           <img
             class="card__image"
@@ -116,21 +126,23 @@
             <br />
             <p><strong>Address: </strong> <%= order.ADDRESS %></p>
           </div>
-
           <div class="card__content2">
             <p><strong>Notes: </strong> <%= order.NOTES %></p>
             <p><strong>Customer Mobile No: </strong> <%= order.PHONE %></p>
           </div>
-
-          <div class="card__info">
-            <div>
+          <form
+            action="/providerapi/home/orders/<%=order.SID %>/ <%= order.OID %>"
+            method="post"
+          >
+            <div class="card__info">
+              <div>
                 <button class="btn">ACCEPT</button>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
         <% }) %> <% } else { %> <% } %>
       </div>
-    </form>
     </div>
   </body>
 </html>

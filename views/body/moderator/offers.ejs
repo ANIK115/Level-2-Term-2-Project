@@ -98,10 +98,7 @@
       <div class="cards">
         <% if (services.length > 0) { %> <% services.forEach(service => { %>
         <div class="card">
-          <img
-            class="card__image"
-            src="https://congtymoitruong.com.vn/upload/elfinder/bao-tri-he-thong-xu-ly-nuoc-thai.jpg"
-          />
+          <img class="card__image" src="<%=service.IMG%>" />
           <div class="card__content">
             <p><strong><%= service.NAME %></strong></p>
           </div>
