@@ -1,7 +1,7 @@
 
 # Esheba
 
-An **E-commerce Website** inspired by [Sheba.xyz](https://www.sheba.xyz/), with some modifications!
+An **E-commerce Website** inspired from [Sheba.xyz](https://www.sheba.xyz/), with some modifications!
 
 Made for Level-2 Term-2 Database Sessional Project created by [Md. Azizur Rahman Anik (1805115)](https://github.com/ANIK115) and [Mashiyat Mahjabin Prapty (1805117)](https://github.com/Mashiyat-Mahjabin?fbclid=IwAR0FYDI4gDviVK3Um6OECGFhjHd9HlcUEWYDwuZvN83uHQRnuSlVeKFDFbU)
 
